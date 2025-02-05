@@ -1,4 +1,4 @@
-import React /*,{useState}*/ from "react";
+//import React /*,{useState}*/ from "react";
 import "./Style.css";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-icons/md";
@@ -30,6 +30,7 @@ export const FormSignUp = () => {
       };*/
 
     return (
+        <>
         <div className="form-container">
             <div className="header">
                 <div className="text">Create Account</div>
@@ -72,5 +73,6 @@ export const FormSignUp = () => {
                 </div>
             </form>
         </div>
+        </>
     );
 };
