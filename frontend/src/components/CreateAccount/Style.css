@@ -1,0 +1,111 @@
+
+
+.form-container {
+    background: linear-gradient(#190850, #0B60B0);
+    color: #60c7ff;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin: 10px auto;
+    padding: 20px;
+    border-radius: 40px;
+    max-width: 600px;
+    width: 90%;
+}
+
+.button-send{
+    padding:5px;
+    text-align: center;
+    font-size: 30px;
+}
+.header {
+    margin-top: 30px;
+}
+
+.text {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 30px;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 80%;
+}
+
+.tilted {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.input-icon svg {
+    font-size: 20px;
+    color: #3f8cff;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: black;
+    background: transparent;
+}
+
+/*
+@media screen and (max-width: 1024px) {
+
+    .text {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .form-container {
+        padding: 15px;
+    }
+
+    .text {
+        font-size: 1.5rem;
+    }
+
+    .input input {
+        height: 45px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .form-container {
+        width: 95%;
+        border-radius: 5%;
+    }
+
+    .text {
+        font-size: 1.2rem;
+    }
+
+    .input input {
+        height: 40px;
+        font-size: 12px;
+    }
+}
+*/
