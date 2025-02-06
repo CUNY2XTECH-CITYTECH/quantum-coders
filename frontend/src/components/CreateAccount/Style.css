@@ -1,7 +1,12 @@
-
-
+body {
+    background-color: #140352;
+}
+ 
+.test-header{
+    color:white;
+}
 .form-container {
-    background: linear-gradient(#190850, #0B60B0);
+    background: linear-gradient(#1f066f, #0B60B0);
     color: #60c7ff;
     font-family: 'Poppins', sans-serif;
     text-align: center;
@@ -12,11 +17,12 @@
     width: 90%;
 }
 
-.button-send{
-    padding:5px;
+.button-send {
+    padding: 5px;
     text-align: center;
     font-size: 30px;
 }
+
 .header {
     margin-top: 30px;
 }
@@ -37,6 +43,7 @@
 .input-field {
     width: 100%;
     max-width: 80%;
+    margin:1px;
 }
 
 .tilted {
@@ -68,7 +75,87 @@ input {
     background: transparent;
 }
 
-/*
+/*button have a account and send account*/
+.bttn-have-acc, .bttn-send {
+    appearance: button;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 10;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.bttn-have-acc{
+    background-color: #186dd6;
+    color: #FFFFFF;
+    width: 45%;
+}
+
+.bttn-send {
+    background-color: #1899D6;
+    color: #FFFFFF;
+    width: 35%;
+}
+
+.bttn-have-acc:after, .bttn-send:after {
+    background-clip: padding-box;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.bttn-have-acc:after{
+    background-color: #3c88e5;
+}
+.bttn-send:after {
+    background-color: #1CB0F6;
+}
+
+.bttn-have-acc,
+.bttn-have-acc:focus, .bttn-send, .bttn-send:focus {
+    user-select: auto;
+}
+
+.bttn-have-acc:hover:not(:disabled), .bttn-send:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.bttn-have-acc:disabled, .bttn-send:disabled {
+    cursor: auto;
+}
+
+.bttn-have-acc:active, .bttn-send:active {
+    border-width: 4px 0 0;
+    background: none;
+}
+
+
 @media screen and (max-width: 1024px) {
 
     .text {
@@ -108,4 +195,3 @@ input {
         font-size: 12px;
     }
 }
-*/

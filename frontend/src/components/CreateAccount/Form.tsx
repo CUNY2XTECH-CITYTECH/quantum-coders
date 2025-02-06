@@ -1,78 +1,169 @@
-//import React /*,{useState}*/ from "react";
+import { useState, /*useNavigate*/ } from "react";
 import "./Style.css";
-import { RiLockPasswordLine } from "react-icons/ri";
+import { RiLockPasswordLine, RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 
-
 export const FormSignUp = () => {
+    //negate 
+    //const navigate = useNavigate();
 
-// set the requirement on each filling form
-    /*const [fullname, setFullname] = useState("");
+    // Form states
+    const [fullName, setFullName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [state, setState] = React.useState({
-        email: "",
-        password: ""
-      });
-      const handleChange = evt => {
-        const value = evt.target.value;
-        setState({
-          ...state,
-          [evt.target.name]: value
-        });
-      };
-      const handleSubmit = evt => {
-        evt.preventDefault();
-        console.log(state);
-      };*/
+    // Error states
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+    //Status request new account, be fail or sucess
+    
+    // Password visibility
+    const [showPassword, setShowPassword] = useState(false);
+
+    const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const validatePassword = (password: string) =>
+        /^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%&*~?]).{6,}$/.test(password);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setEmailError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+
+        if (!validateEmail(email)) {
+            setEmailError("Invalid email format.");
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            setPasswordError("Password must be at least 6 characters, include at least 2 numbers, 1 uppercase letter, and 1 special character.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setConfirmPasswordError("Passwords do not match.");
+            return;
+        }
+
+        alert("Form submitted successfully!");
+    };
+
+    /*
+    const goToLogin = () => {
+        navigate = "/home/user/quantum-coders/frontend/src/components";
+    };
+    */
     return (
         <>
-        <div className="form-container">
-            <div className="header">
-                <div className="text">Create Account</div>
+            <div className="test-header">
+                <p>Here is the header (to go back to the main page)</p>
             </div>
-            <form>
-                <div className="inputs">
-                    <div className="input-field">
-                        <p className="tilted">Full name</p>
-                        <div className="input-icon">
-                            <MdOutlineDriveFileRenameOutline />
-                            <input type="text" className="input-fullname" placeholder="Enter your fullname" />
-                        </div>
-                    </div>
-
-                    <div className="input-field">
-                        <p className="tilted">Username</p>
-                        <div className="input-icon">
-                            <MdOutlineDriveFileRenameOutline />
-                            <input type="text" className="input-username" placeholder="Enter your username" />
-                        </div>
-                    </div>
-                    <div className="input-field">
-                        <p className="tilted">E-mail</p>
-                        <div className="input-icon">
-                            <MdOutlineAccountCircle />
-                            <input type="email" className="input-email" placeholder="Enter your email" />
-                        </div>
-                    </div>
-                     <div className="input-field">
-                        <p className="tilted">Password</p>
-                        <div className="input-icon">
-                            <RiLockPasswordLine />
-                            <input type="password" className="input-password" placeholder="Enter your password" />
-                        </div>
-                    </div>
-                    <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Have a Account?</button>
-                    <button>
-                        <IoSend />
-                    </button>
+            <br />
+            <div className="form-container">
+                <div className="header">
+                    <div className="text">Create Account</div>
                 </div>
-            </form>
-        </div>
+                <form onSubmit={handleSubmit}>
+                    <div className="inputs">
+                        <div className="input-field">
+                            <p className="tilted">Full name</p>
+                            <div className="input-icon">
+                                <MdOutlineDriveFileRenameOutline />
+                                <input
+                                    type="text"
+                                    className="input-fullname"
+                                    placeholder="Enter your full name"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="input-field">
+                            <p className="tilted">Username</p>
+                            <div className="input-icon">
+                                <MdOutlineDriveFileRenameOutline />
+                                <input
+                                    type="text"
+                                    className="input-username"
+                                    placeholder="Enter your username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="input-field">
+                            <p className="tilted">E-mail</p>
+                            <div className="input-icon">
+                                <MdOutlineAccountCircle />
+                                <input
+                                    type="email"
+                                    className="input-email"
+                                    placeholder="Enter your email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {emailError && <p className="error-message">{emailError}</p>}
+                        </div>
+
+                        <div className="input-field">
+                            <p className="tilted">Password</p>
+                            <div className="input-icon">
+                                <RiLockPasswordLine />
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    className="input-password"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                                    {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                </span>
+                            </div>
+                            {passwordError && <p className="error-message">{passwordError}</p>}
+                        </div>
+
+                        <div className="input-field">
+                            <p className="tilted">Confirm Password</p>
+                            <div className="input-icon">
+                                <RiLockPasswordLine />
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    className="input-password"
+                                    placeholder="Re-enter your password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                                <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                                    {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                </span>
+                            </div>
+                            {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
+                        </div>
+
+                        <button type="submit" className="bttn-send">
+                            <IoSend />
+                        </button>
+                        
+                        <br />
+                        <button type="button" className="bttn-have-acc">Have an Account?</button>
+                    </div>
+                </form>
+            </div>
         </>
     );
 };
