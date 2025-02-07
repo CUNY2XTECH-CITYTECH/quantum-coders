@@ -21,6 +21,8 @@ export const FormSignUp = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     //Status request new account, be fail or sucess
+    /*const [successMsg, setSucessMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");*/
     
     // Password visibility
     const [showPassword, setShowPassword] = useState(false);
