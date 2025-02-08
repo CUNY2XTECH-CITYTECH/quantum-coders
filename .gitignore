@@ -7,3 +7,5 @@ node_modules/
 # Ignore build files (if applicable)
 dist/
 .env
+wireguard.conf
+

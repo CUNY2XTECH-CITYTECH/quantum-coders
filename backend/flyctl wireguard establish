@@ -1,0 +1,12 @@
+
+[Interface]
+PrivateKey = qBS5Wp5Dca9c28PclXH+I6+hspMc743S6c2Q9HJF6a8=
+Address = fdaa:d:6142:a7b:28:0:a:102/120
+DNS = fdaa:d:6142::3
+
+[Peer]
+PublicKey = CI3L+ohlBYZ9mD0IGmX3QNtW/lCEwh7GhiMAmVUZpgc=
+AllowedIPs = fdaa:d:6142::/48
+Endpoint = ewr1.gateway.6pn.dev:51820
+PersistentKeepalive = 15
+
