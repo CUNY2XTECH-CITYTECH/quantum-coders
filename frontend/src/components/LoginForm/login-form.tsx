@@ -1,90 +1,104 @@
-'use client'
+import React, { useState } from "react";
+import "./login-form.css";
 
-import React, { PropsWithChildren, useEffect, useState } from 'react'
-import { LoginState, LoginContext } from ''
-
-import SuperTokens from '';
-import Session, { signOut } from '';
-import EmailPassword, { signIn, signUp } from ''
-import { User } from '';
-
-export const LoginForm = ({ children }: PropsWithChildren) => {
-    const [user, setUser] = useState<User | null>(null)
-    const [loginState, setLoginState] = useState<LoginState>(LoginState.LoggedOut)
-    const [loginError, setLoginError] = useState<string>('')
-
-    useEffect(() => {
-        SuperTokens.init({
-            appInfo: {
-                apiDomain: document.location.host,
-                apiBasePath: "/auth",
-                appName: "Quantum Coders",
-            },
-            recipeList: [
-                Session.init(),
-                EmailPassword.init(),
-            ],
-        });
-    }, [])
-
-    const doLogin = (email: string, password: string) => {
-        signIn({
-            formFields: [
-                { id: "email", value: email },
-                { id: "password", value: password },
-            ]
-        }).then((res) => {
-            if (res.status === 'OK') {
-                setUser(res.user)
-                setLoginState(LoginState.LoggedIn)
-            } else if (res.status === 'WRONG_CREDENTIALS_ERROR') {
-                setUser(null)
-                setLoginState(LoginState.LoggedOut)
-            }
-        }).catch((err) => {
-            setLoginState(LoginState.LoggedOut)
-            setLoginError(err.message)
-        })
-    }
-
-    const doSignUp = (email: string, password: string) => {
-        signUp({
-            formFields: [
-                { id: "email", value: email },
-                { id: "password", value: password },
-            ]
-        }).then((res) => {
-            if (res.status === 'OK') {
-                setUser(res.user)
-                setLoginState(LoginState.LoggedIn)
-            } else if (res.status === 'SIGN_UP_NOT_ALLOWED') {
-                setUser(null)
-                setLoginError('Unable to sign up with these credentials')
-                setLoginState(LoginState.LoggedOut)
-            }
-        }).catch((err) => {
-            setLoginState(LoginState.LoggedOut)
-            setLoginError(err.message)
-        })
-    }
-
-    const doLogout = () => {
-        signOut().then(() => {
-            setUser(null)
-            setLoginState(LoginState.LoggedOut)
-        })
-    }
-
-    return (
-        <LoginContext.Form value={{
-            userName: user?.emails[0] || '',
-            loginState,
-            doLogin,
-            doSignUp,
-            doLogout,
-            loginError,
-        }}>
-            {children}
-        </LoginContext.Form>
-    )
+// Define the interface for the form data
+interface LoginFormData {
+  username: string;
+  password: string;
 }
+
+// Define the interface for error messages
+interface ValidationErrors {
+  username?: string;
+  password?: string;
+}
+
+const LoginForm: React.FC = () => {
+  // Use type assertion for better typing of formData
+  const [formData, setFormData] = useState<LoginFormData>({
+    username: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<ValidationErrors>({
+    username: "",
+    password: "",
+  });
+
+  // Handle form field changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  // Validate the form fields
+  const validate = (): boolean => {
+    let isValid = true;
+    const newErrors: ValidationErrors = {};
+
+    if (!formData.username) {
+      newErrors.username = "Username is required";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    // Additional validation for password strength (optional)
+    if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+
+    if (validate()) {
+      // Here you can handle login logic, like sending the data to an API
+      console.log("Logging in with:", formData);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Login Form</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          {errors.username && <p>{errors.username}</p>}
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default LoginForm;
