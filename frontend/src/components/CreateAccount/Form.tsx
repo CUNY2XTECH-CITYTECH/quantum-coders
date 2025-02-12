@@ -4,11 +4,9 @@ import { RiLockPasswordLine, RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
 
-//update
-export const FormSignUp = () => {
-    //negate 
-    //const navigate = useNavigate();
+import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
+export const FormSignUp = () => {
     // Form states
     const [fullName, setFullName] = useState("");
     const [username, setUsername] = useState("");
@@ -22,39 +20,53 @@ export const FormSignUp = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     //Status request new account, be fail or sucess
-    /*const [successMsg, setSucessMsg] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");*/
-    
-    // Password visibility
-    const [showPassword, setShowPassword] = useState(false);
+    const [successMsg, setSuccessMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
+    //password visibility
+    const [showPassword, setShowPassword] = useState(false);
+        //password visibility
+    //set to have a valid email, have a @ and after a . 
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+    // set at least 1 UPPER LETTER, 1 number, a symbol and minumum 6 characters
     const validatePassword = (password: string) =>
-        /^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%&*~?]).{6,}$/.test(password);
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*~?]).{6,}$/.test(password);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setEmailError("");
         setPasswordError("");
         setConfirmPasswordError("");
+        setSuccessMsg("");
+        setErrorMsg("");
 
         if (!validateEmail(email)) {
             setEmailError("Invalid email format.");
+            setErrorMsg("Invalid email or password format.");
             return;
         }
 
         if (!validatePassword(password)) {
             setPasswordError("Password must be at least 6 characters, include at least 2 numbers, 1 uppercase letter, and 1 special character.");
+            setErrorMsg("Invalid email or password format.");
             return;
         }
 
         if (password !== confirmPassword) {
             setConfirmPasswordError("Passwords do not match.");
+            setErrorMsg("Invalid email or password format.");
             return;
         }
+        setSuccessMsg("Account created successfully! 🎉 go to home");
 
-        alert("Form submitted successfully!");
+        try {
+            //here there is a error
+            let response = await EmailPassword.signUp({ email, password });
+            console.log(response);
+        } catch (err) {
+            setErrorMsg("Sign-Up failed. Email might be in use.");
+        }
     };
 
     /*
@@ -72,6 +84,7 @@ export const FormSignUp = () => {
                 <div className="header">
                     <div className="text">Create Account</div>
                 </div>
+                {/*here */}
                 <form onSubmit={handleSubmit}>
                     <div className="inputs">
                         <div className="input-field">
@@ -161,7 +174,8 @@ export const FormSignUp = () => {
                         <button type="submit" className="bttn-send">
                             <IoSend />
                         </button>
-                        
+                        {errorMsg && <p style={{ color: "red", marginTop: "10px" }}>{errorMsg}</p>}
+                        {successMsg && <p style={{ color: "green", marginTop: "10px" }}>{successMsg}</p>}
                         <br />
                         <button type="button" className="bttn-have-acc">Have an Account?</button>
                     </div>
