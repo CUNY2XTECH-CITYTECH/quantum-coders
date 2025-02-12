@@ -61,7 +61,7 @@ export const FormSignUp = () => {
         setSuccessMsg("Account created successfully! 🎉 go to home");
 
         try {
-            //here there is a error
+            //here there is a error to send the mail
             let response = await EmailPassword.signUp({ email, password });
             console.log(response);
         } catch (err) {
