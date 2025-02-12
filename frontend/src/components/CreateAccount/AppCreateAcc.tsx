@@ -1,4 +1,4 @@
-import { FormSignUp } from "../../components/CreateAccount/Form";
+import { FormSignUp } from "./RegisterForm";
 import ReactDOM from "react-dom/client";
 
 const container = document.getElementById("here");
