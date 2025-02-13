@@ -5,6 +5,22 @@ import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-i
 import { IoSend } from "react-icons/io5";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
+import SuperTokens from "supertokens-web-js";
+import Session from "supertokens-web-js/recipe/session";
+//import EmailPassword from "supertokens-web-js/recipe/emailpassword";
+
+SuperTokens.init({
+    appInfo: {
+        apiDomain: "http://localhost:3001",
+        apiBasePath: "/auth",
+        appName: "Quantum-Coders",
+    },
+    recipeList: [
+        Session.init(),
+        EmailPassword.init(),
+    ],
+});
+
 export const FormSignUp = () => {
     // Form states
     const [fullName, setFullName] = useState("");
@@ -41,22 +57,23 @@ export const FormSignUp = () => {
 
         // Form validation
         if (!validateEmail(email)) {
-            setEmailError("Invalid email format.");
-            setErrorMsg("Form submission failed. Please check your inputs.");
+            setEmailError("     Invalid email format        ");
+            setErrorMsg("       Form submission failed. Please check your inputs        ");
             return;
         }
 
         if (!validatePassword(password)) {
-            setPasswordError(
-                "Password must be at least 6 characters, include at least 2 numbers, 1 uppercase letter, and 1 special character."
-            );
-            setErrorMsg("Form submission failed. Please check your inputs.");
+            const errorMessage = "Password requirement 6 characters, 1 number, 1 uppercase letter & 1 special character";
+            setPasswordError(errorMessage);
+            
+            
+            setErrorMsg("       Form submission failed. Please check your inputs        ");
             return;
         }
 
         if (password !== confirmPassword) {
-            setConfirmPasswordError("Passwords do not match.");
-            setErrorMsg("Form submission failed. Please check your inputs.");
+            setConfirmPasswordError("       Passwords do not match     ");
+            setErrorMsg("       Form submission failed. Please check your inputs        ");
             return;
         }
 
@@ -72,14 +89,14 @@ export const FormSignUp = () => {
             });
 
             if (response.status === "OK") {
-                setSuccessMsg("Sign-Up Successful! You can now log in.");
+                setSuccessMsg("     Sign-Up Successful! You can now log in      ");
                 console.log("User ID:", response.user.id);
             } else {
                 setErrorMsg("Sign-Up failed. Email might already be in use.");
             }
         } catch (error) {
             console.error("Sign-Up Error:", error);
-            setErrorMsg("Sign-Up failed due to a network error.");
+            setErrorMsg("      Sign-Up failed due to a network error       ");
         }
     }
     /*
@@ -184,7 +201,7 @@ export const FormSignUp = () => {
                         </button>
                         {errorMsg && <p style={{ color: "red", marginTop: "5px" }}>{errorMsg}</p>}
                         {successMsg && <p style={{ color: "green", marginTop: "5px" }}>{successMsg}</p>}
-                        <br />
+
                         <button type="button" className="bttn-have-acc">Having Account?</button>
                     </div>
                 </form>

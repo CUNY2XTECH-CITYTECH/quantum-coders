@@ -4,18 +4,18 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    font-family: 'Poppins', sans-serif;
 }
 
 .form-container {
     background: linear-gradient(#1f066f, #0B60B0);
     color: #60c7ff;
-    font-family: 'Poppins', sans-serif;
     text-align: center;
-    margin: 20px auto; /* Increased margin for better spacing */
-    padding: 40px;
+    margin: 20px; 
+    padding: 20px;
     border-radius: 50px;
-    width: 70%; /* Increase width */
-    max-width: 900px; /* Set a larger max width */
+    width: 70%; 
+    max-width: 100%; 
     padding-left: 100px;
     padding-right: 100px;
 }
@@ -43,6 +43,7 @@ body {
     align-items: center;
     gap: 15px;
     padding-bottom: 30px;
+    
 }
 
 .input-field {
@@ -75,7 +76,7 @@ input {
     width: 100%;
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 20px;
     color: black;
     background: transparent;
 }
