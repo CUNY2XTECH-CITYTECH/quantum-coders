@@ -2,6 +2,22 @@ import React, { useState } from "react";
 import "./login-form.css";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 
+import SuperTokens from 'supertokens-web-js';
+import Session from 'supertokens-web-js/recipe/session';
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
+
+SuperTokens.init({
+    appInfo: {
+        apiDomain: "http://localhost:3001",
+        apiBasePath: "/auth",
+        appName: "Quantum-Coders",
+    },
+    recipeList: [
+        Session.init(),
+        EmailPassword.init(),
+    ],
+});
+
 // Interfaces for types
 interface FormData {
   email: string;
