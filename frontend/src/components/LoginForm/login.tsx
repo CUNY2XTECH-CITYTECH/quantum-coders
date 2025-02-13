@@ -1,14 +1,11 @@
-// src/App.tsx
-import React from "react";
-import LoginForm from "./login-form";
 
-const Login: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>React Login Form</h1>
-      <LoginForm />
-    </div>
-  );
-};
+import ReactDOM from "react-dom/client";
+import FormLogin from "./login-form";
 
-export default Login;
+const container = document.getElementById("root");
+if (container){
+  const root = ReactDOM.createRoot(container);
+  root.render(<FormLogin />);
+} else {
+  console.error("Login info not found")
+}
