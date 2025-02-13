@@ -5,8 +5,6 @@ import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-i
 import { IoSend } from "react-icons/io5";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
-
-
 export const FormSignUp = () => {
     // Form states
     const [fullName, setFullName] = useState("");
@@ -26,6 +24,7 @@ export const FormSignUp = () => {
 
     // Password visibility
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
     // Validation functions
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -94,7 +93,6 @@ export const FormSignUp = () => {
                 <div className="header">
                     <div className="text">Create Account</div>
                 </div>
-                {/*here */}
                 <form onSubmit={handleSubmit}>
                     <div className="inputs">
                         <div className="input-field">
@@ -167,15 +165,15 @@ export const FormSignUp = () => {
                             <div className="input-icon">
                                 <RiLockPasswordLine />
                                 <input
-                                    type={showPassword ? "text" : "password"}
+                                    type={showPasswordConfirm ? "text" : "password"}
                                     className="input-password"
                                     placeholder="Re-enter your password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                 />
-                                <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
-                                    {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
+                                    {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
                                 </span>
                             </div>
                             {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
@@ -184,10 +182,10 @@ export const FormSignUp = () => {
                         <button type="submit" className="bttn-send">
                             <IoSend />
                         </button>
-                        {errorMsg && <p style={{ color: "red", marginTop: "10px" }}>{errorMsg}</p>}
-                        {successMsg && <p style={{ color: "green", marginTop: "10px" }}>{successMsg}</p>}
+                        {errorMsg && <p style={{ color: "red", marginTop: "5px" }}>{errorMsg}</p>}
+                        {successMsg && <p style={{ color: "green", marginTop: "5px" }}>{successMsg}</p>}
                         <br />
-                        <button type="button" className="bttn-have-acc">Have an Account?</button>
+                        <button type="button" className="bttn-have-acc">Having Account?</button>
                     </div>
                 </form>
             </div>
