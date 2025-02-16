@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSessionContext, signOut } from "supertokens-auth-react/recipe/session";
 import { useNavigate } from "react-router-dom";
+import Services from "./Services"; // Import the Services component
 
 const Home: React.FC = () => {
   const { loading, doesSessionExist, getUserId } = useSessionContext();
@@ -39,6 +40,9 @@ const Home: React.FC = () => {
         <p className="mt-2">
           Feel free to reach out to us through this page.
         </p>
+      </div>
+      <div className="mt-6">
+        <Services /> {/* Include the Services component */}
       </div>
       <button
         onClick={handleLogout}
