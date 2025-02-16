@@ -3,14 +3,14 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
+import Navbar from "./Homepage/Navbar";
+import Hero from "./Homepage/Hero";
 import Home from "./pages/Home";
-import About from "./pages/About"; // Import the new About page
-import Contact from "./pages/Contact"; // Import the new Contact page
-import Services from "./pages/Services"; // Import the new Services page
+import About from "./Homepage/About"; // Import the new About page
+import Contact from "./Homepage/Contact"; // Import the new Contact page
+import Services from "./Homepage/Services"; // Import the new Services page
 import Login from "./pages/Login"; // Import the new Login page
-import Register from "./pages/Register"; // Import the new Register page
+import Register from "./Homepage/Register"; // Import the new Register page
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 
 const App: React.FC = () => {

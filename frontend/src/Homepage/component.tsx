@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { signOut } from "supertokens-auth-react/recipe/session";
@@ -38,7 +37,7 @@ const Home: React.FC = () => {
         Logout
       </button>
     </div>
-  );
+  );   
 };
 
 export default Home;
