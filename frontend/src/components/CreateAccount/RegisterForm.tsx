@@ -1,211 +1,159 @@
-import { useState, /*useNavigate*/ } from "react";
-import "./Style.css";
+import { useState } from "react";
 import { RiLockPasswordLine, RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
-import EmailPassword from "supertokens-web-js/recipe/emailpassword";
+import { signUp } from "supertokens-auth-react/recipe/emailpassword";
+import "./Style.css";
 
-import SuperTokens from "supertokens-web-js";
-import Session from "supertokens-web-js/recipe/session";
-//import EmailPassword from "supertokens-web-js/recipe/emailpassword";
-
-SuperTokens.init({
-    appInfo: {
-        apiDomain: "http://localhost:3001",
-        apiBasePath: "/auth",
-        appName: "Quantum-Coders",
-    },
-    recipeList: [
-        Session.init(),
-        EmailPassword.init(),
-    ],
-});
-
-export const FormSignUp = () => {
-    // Form states
-    const [fullName, setFullName] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-
-    // Error states
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-    // Status messages
+export const RegisterForm = () => {
+    const [form, setForm] = useState({
+        fullName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
+    const [errors, setErrors] = useState({ email: "", password: "", confirmPassword: "" });
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-
-    // Password visibility
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-    // Validation functions
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validatePassword = (password: string) =>
         /^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%&*~?]).{6,}$/.test(password);
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setEmailError("");
-        setPasswordError("");
-        setConfirmPasswordError("");
+        setErrors({ email: "", password: "", confirmPassword: "" });
         setSuccessMsg("");
         setErrorMsg("");
 
-        // Form validation
-        if (!validateEmail(email)) {
-            setEmailError("     Invalid email format        ");
-            setErrorMsg("       Form submission failed. Please check your inputs        ");
+        if (!validateEmail(form.email)) {
+            setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
             return;
         }
 
-        if (!validatePassword(password)) {
-            const errorMessage = "Password requirement 6 characters, 1 number, 1 uppercase letter & 1 special character";
-            setPasswordError(errorMessage);
-            
-            
-            setErrorMsg("       Form submission failed. Please check your inputs        ");
+        if (!validatePassword(form.password)) {
+            setErrors((prev) => ({ ...prev, password: "Password must be at least 6 characters, contain an uppercase letter, 2 numbers, and a special character" }));
             return;
         }
 
-        if (password !== confirmPassword) {
-            setConfirmPasswordError("       Passwords do not match     ");
-            setErrorMsg("       Form submission failed. Please check your inputs        ");
+        if (form.password !== form.confirmPassword) {
+            setErrors((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }));
             return;
         }
 
-        // supertokens check
         try {
-            const response = await EmailPassword.signUp({
+            let response = await signUp({
                 formFields: [
-                    { id: "email", value: email },
-                    { id: "password", value: password },
-                    { id: "fullName", value: fullName },
-                    { id: "username", value: username },
-                ],
+                    { id: "email", value: form.email },
+                    { id: "password", value: form.password },
+                    { id: "username", value: form.username },
+                    { id: "fullName", value: form.fullName }
+                ]
             });
 
             if (response.status === "OK") {
-                setSuccessMsg("     Sign-Up Successful! You can now log in      ");
-                console.log("User ID:", response.user.id);
+                setSuccessMsg("Sign-Up Successful! You can now log in.");
             } else {
-                setErrorMsg("Sign-Up failed. Email might already be in use.");
+                setErrorMsg("Sign-Up failed. Try again."); //response.formFields[0]?.error ||
             }
         } catch (error) {
             console.error("Sign-Up Error:", error);
-            setErrorMsg("      Sign-Up failed due to a network error       ");
+            setErrorMsg("An error occurred. Please try again.");
         }
-    }
-    /*
-    const goToLogin = () => {
-        navigate = "/home/user/quantum-coders/frontend/src/components";
     };
-    */
+
     return (
-        <>
-            <div className="form-container">
-                <div className="header">
-                    <div className="text">Create Account</div>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="inputs">
-                        <div className="input-field">
-                            <p className="tilted">Full name</p>
-                            <div className="input-icon">
-                                <MdOutlineDriveFileRenameOutline />
-                                <input
-                                    type="text"
-                                    className="input-fullname"
-                                    placeholder="Enter your full name"
-                                    value={fullName}
-                                    onChange={(e) => setFullName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="input-field">
-                            <p className="tilted">Username</p>
-                            <div className="input-icon">
-                                <MdOutlineDriveFileRenameOutline />
-                                <input
-                                    type="text"
-                                    className="input-username"
-                                    placeholder="Enter your username"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="input-field">
-                            <p className="tilted">E-mail</p>
-                            <div className="input-icon">
-                                <MdOutlineAccountCircle />
-                                <input
-                                    type="email"
-                                    className="input-email"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {emailError && <p className="error-message">{emailError}</p>}
-                        </div>
-
-                        <div className="input-field">
-                            <p className="tilted">Password</p>
-                            <div className="input-icon">
-                                <RiLockPasswordLine />
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    className="input-password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                                <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
-                                    {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                </span>
-                            </div>
-                            {passwordError && <p className="error-message">{passwordError}</p>}
-                        </div>
-
-                        <div className="input-field">
-                            <p className="tilted">Confirm Password</p>
-                            <div className="input-icon">
-                                <RiLockPasswordLine />
-                                <input
-                                    type={showPasswordConfirm ? "text" : "password"}
-                                    className="input-password"
-                                    placeholder="Re-enter your password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                />
-                                <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
-                                    {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                </span>
-                            </div>
-                            {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
-                        </div>
-
-                        <button type="submit" className="bttn-send">
-                            <IoSend />
-                        </button>
-                        {errorMsg && <p style={{ color: "red", marginTop: "5px" }}>{errorMsg}</p>}
-                        {successMsg && <p style={{ color: "green", marginTop: "5px" }}>{successMsg}</p>}
-
-                        <button type="button" className="bttn-have-acc">Having Account?</button>
-                    </div>
-                </form>
+        <div className="form-container">
+            <div className="header">
+                <div className="text">Create Account</div>
             </div>
-        </>
+            <form onSubmit={handleSubmit}>
+                <div className="inputs">
+                    <div className="input-field">
+                        <p className="tilted">Full name</p>
+                        <div className="input-icon">
+                            <MdOutlineDriveFileRenameOutline />
+                            <input
+                                type="text"
+                                name="fullName"
+                                placeholder="Full Name"
+                                value={form.fullName}
+                                onChange={handleChange} required />
+                        </div>
+                    </div>
+                    <div className="input-field">
+                        <p className="tilted">Username</p>
+                        <div className="input-icon">
+                            <MdOutlineDriveFileRenameOutline />
+                            <input
+                                type="text"
+                                name="username"
+                                placeholder="Username"
+                                value={form.username}
+                                onChange={handleChange} required />
+                        </div>
+                    </div>
+                    <div className="input-field">
+                        <p className="tilted">E-mail</p>
+                        <div className="input-icon">
+                            <MdOutlineAccountCircle />
+                            <input type="email" 
+                            name="email" placeholder="Email" 
+                            value={form.email} 
+                            onChange={handleChange} required />
+                            {errors.email && <p className="error-message">{errors.email}</p>}
+                        </div>
+                    </div>
+                    <div className="input-field">
+                        <p className="tilted">Password</p>
+                        <div className="input-icon">
+                            <MdOutlineAccountCircle />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password" placeholder="Password"
+                                value={form.password}
+                                onChange={handleChange} required />
+                            <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                                {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                            </span>
+                            {errors.password && <p className="error-message">{errors.password}</p>}
+                        </div>
+                    </div>
+                    <div className="input-field">
+                        <p className="tilted">Enter again the password</p>
+                        <div className="input-icon">
+                            <RiLockPasswordLine />
+                            <input
+                                type={showPasswordConfirm ? "text" : "password"}
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                value={form.confirmPassword}
+                                onChange={handleChange} required />
+                            <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
+                                {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
+                            </span>
+                            {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" className="bttn-send">
+                    <IoSend /> Sign Up
+                </button>
+                {errorMsg && <p className="error-message">{errorMsg}</p>}
+                {successMsg && <p className="success-message">{successMsg}</p>}
+                <br></br>
+                <button type="button" className="bttn-have-acc">Having Account?</button>
+
+            </form>
+        </div>
     );
 };
+
+export default RegisterForm;

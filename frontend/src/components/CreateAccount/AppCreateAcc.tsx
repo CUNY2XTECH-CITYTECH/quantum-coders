@@ -1,7 +1,7 @@
-import { FormSignUp } from "./RegisterForm";
+import  FormSignUp  from "./RegisterForm";
 import ReactDOM from "react-dom/client";
 
-const container = document.getElementById("here");
+const container = document.getElementById("root");
 if (container) {
   const root = ReactDOM.createRoot(container);
   root.render(<FormSignUp />);
