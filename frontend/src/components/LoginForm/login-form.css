@@ -1,60 +1,45 @@
 .form-container {
-  width: 100%;
-  max-width: 400px;
+  width: 300px;
   margin: 0 auto;
   padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
   text-align: center;
+  font-size: 24px;
 }
 
 .form-group {
   margin-bottom: 15px;
-  display: flex;
-  align-items: center;
 }
 
 .input-field {
-  padding: 10px;
-  margin-left: 10px;
-  width: calc(100% - 30px);  /* Adjust for icon and spacing */
-  border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
   border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.btn-submit:disabled {
+  background-color: #aaa;
 }
 
 .error {
   color: red;
   font-size: 12px;
-}
-
-.btn-submit {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 4px;
-}
-
-.btn-submit:hover {
-  background-color: #45a049;
-}
-
-.btn-link {
-  background: none;
-  color: blue;
-  border: none;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.form-login,
-.form-reset {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group span {
-  display: inline-flex;
-  align-items: center;
-  margin-right: 10px;
+  margin-top: 5px;
 }

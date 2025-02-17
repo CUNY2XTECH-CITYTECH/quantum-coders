@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./login-form.css";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
-
 import SuperTokens from 'supertokens-web-js';
 import Session from 'supertokens-web-js/recipe/session';
-import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
 
 SuperTokens.init({
     appInfo: {
@@ -18,21 +17,12 @@ SuperTokens.init({
     ],
 });
 
-// Interfaces for types
-interface FormData {
-  email: string;
-  password: string;
-}
-
-interface ResetPasswordData {
-  email: string;
-}
-
 const FormLogin = () => {
   const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
-  const [resetPasswordData, setResetPasswordData] = useState<ResetPasswordData>({ email: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [resetPasswordData, setResetPasswordData] = useState({ email: '' });
   const [errors, setErrors] = useState<{ email: string, password: string }>({ email: '', password: '' });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const validateLoginForm = () => {
     const newErrors = { email: '', password: '' };
@@ -52,11 +42,27 @@ const FormLogin = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateLoginForm()) {
-      // Proceed with login logic
-      console.log("Login successful", formData);
+      setLoading(true); // Set loading to true when the form is submitted
+
+      try {
+        // Call the SuperTokens signIn method
+        await EmailPassword.signIn({
+          formFields: [
+            { id: 'email', value: formData.email },
+            { id: 'password', value: formData.password },
+          ],
+        });
+
+        console.log("Login successful");
+      } catch (error) {
+        console.error("Login failed", error);
+        alert("Login failed. Please try again.");
+      } finally {
+        setLoading(false); // Set loading back to false when the operation finishes
+      }
     }
   };
 
@@ -117,7 +123,9 @@ const FormLogin = () => {
             />
             {errors.password && <span className="error">{errors.password}</span>}
           </div>
-          <button type="submit" className="btn-submit">Login</button>
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
           <p>
             <button type="button" onClick={handleForgotPassword} className="btn-link">
               Forgot Password?
