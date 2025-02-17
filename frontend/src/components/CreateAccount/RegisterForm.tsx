@@ -2,10 +2,30 @@ import { useState } from "react";
 import { RiLockPasswordLine, RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoSend } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { signUp } from "supertokens-auth-react/recipe/emailpassword";
 import "./Style.css";
 
+
+import SuperTokens from "supertokens-web-js";
+import Session from "supertokens-web-js/recipe/session";
+import EmailPassword from "supertokens-web-js/recipe/emailpassword";
+
+SuperTokens.init({
+    appInfo: {
+        apiDomain: "http://localhost:3001",
+        apiBasePath: "/auth",
+        appName: "Quantum-Coders",
+    },
+    recipeList: [
+        Session.init(),
+        EmailPassword.init(),
+    ],
+});
+
+
 export const RegisterForm = () => {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         fullName: "",
         username: "",
@@ -13,20 +33,26 @@ export const RegisterForm = () => {
         password: "",
         confirmPassword: ""
     });
+
+    //set error menssage 
     const [errors, setErrors] = useState({ email: "", password: "", confirmPassword: "" });
     const [successMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    //show password
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
+    //email requirement
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validatePassword = (password: string) =>
         /^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%&*~?]).{6,}$/.test(password);
 
+    //send the form
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    //button work
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrors({ email: "", password: "", confirmPassword: "" });
@@ -67,6 +93,9 @@ export const RegisterForm = () => {
             console.error("Sign-Up Error:", error);
             setErrorMsg("An error occurred. Please try again.");
         }
+        //go back to homepage
+        console.log("User signed up:", form);
+        navigate("/", { state: { signupSuccess: true } });
     };
 
     return (
@@ -139,8 +168,8 @@ export const RegisterForm = () => {
                             <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
                                 {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
                             </span>
-                            {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                         </div>
+                        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                     </div>
                 </div>
                 <button type="submit" className="bttn-send">
@@ -149,7 +178,7 @@ export const RegisterForm = () => {
                 {errorMsg && <p className="error-message">{errorMsg}</p>}
                 {successMsg && <p className="success-message">{successMsg}</p>}
                 <br></br>
-                <button type="button" className="bttn-have-acc">Having Account?</button>
+                <button type="button" className="bttn-have-acc" onClick={() => navigate("/login")}>Having Account?</button>
 
             </form>
         </div>

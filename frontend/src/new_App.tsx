@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SuperTokensWrapper } from "supertokens-auth-react";
 //import Login from "./components/LoginAcc/logIn";
@@ -12,11 +12,11 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<RegisterForm />} />
-          <Route path="/dashboard" element={/*<ProtectedRoute>*/<Dashboard />/*</ProtectedRoute>*/} />
-        </Routes>
+          <Route path="/dashboard" element={/*<ProtectedRoute>*///<Dashboard />/*</ProtectedRoute>*/} />
+        /*</Routes>
       </BrowserRouter>
     </SuperTokensWrapper>
   );
 };
 
-export default App;
+export default App;*/

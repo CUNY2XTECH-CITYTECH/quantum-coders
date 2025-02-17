@@ -5,28 +5,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import RegisterForm from "./components/CreateAccount/RegisterForm";
-//import logIn from "./LoginAcc/logIn"
-import Homepage from "./components/HomePage/homepage"
+import FormLogin from "./components/LoginAcc/login-form";
+import Homepage from "./components/HomePage/homepage";
 import ErrorPage from "./components/error-page";
 
-const routerSignUp = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: <RegisterForm/>,
+    element: <Homepage />,
     errorElement: <ErrorPage />,
   },
-]);
-
-const RouterHomepage = createBrowserRouter([
   {
-    path: "/",
-    element: <Homepage/>,
-    errorElement: <ErrorPage />,
+    path: "/register",
+    element: <RegisterForm />,
+  },
+  {
+    path: "/login",
+    element: <FormLogin />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={RouterHomepage} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
