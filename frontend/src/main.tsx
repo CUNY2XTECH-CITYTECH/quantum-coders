@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import RegisterForm from "./components/CreateAccount/RegisterForm";
+import RegisterWei from "./components/HomePage/weiRegister"
 import FormLogin from "./components/LoginAcc/login-form";
 import Home from "./components/HomePage/Home";
 import ErrorPage from "./components/error-page";

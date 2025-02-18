@@ -86,6 +86,9 @@ export const RegisterForm = () => {
 
             if (response.status === "OK") {
                 setSuccessMsg("Sign-Up Successful! You can now log in.");
+                //go back to homepage
+                console.log("User signed up:", form);
+                navigate("/", { state: { signupSuccess: true } });
             } else {
                 setErrorMsg("Sign-Up failed. Try again."); //response.formFields[0]?.error ||
             }
@@ -93,9 +96,6 @@ export const RegisterForm = () => {
             console.error("Sign-Up Error:", error);
             setErrorMsg("An error occurred. Please try again.");
         }
-        //go back to homepage
-        console.log("User signed up:", form);
-        navigate("/", { state: { signupSuccess: true } });
     };
 
     return (
@@ -104,92 +104,90 @@ export const RegisterForm = () => {
                 <Header />
             </div>
             <div>
-                <body className="Signup-Body">
-                    <div className="form-container-Signup">
-                        <div className="header-Signup">
-                            <div className="text-Signup">Create Account</div>
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="inputs-Signup">
-                                <div className="input-field-Signup">
-                                    <p className="tilted-Signup">Full name</p>
-                                    <div className="input-icon-Signup">
-                                        <MdOutlineDriveFileRenameOutline />
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            placeholder="Full Name"
-                                            value={form.fullName}
-                                            onChange={handleChange} required />
-                                    </div>
-                                </div>
-                                <div className="input-field-Signup">
-                                    <p className="tilted-Signup">Username</p>
-                                    <div className="input-icon-Signup">
-                                        <MdOutlineDriveFileRenameOutline />
-                                        <input
-                                            type="text"
-                                            name="username"
-                                            placeholder="Username"
-                                            value={form.username}
-                                            onChange={handleChange} required />
-                                    </div>
-                                </div>
-                                <div className="input-field-Signup">
-                                    <p className="tilted-Signup">E-mail</p>
-                                    <div className="input-icon-Signup">
-                                        <MdOutlineAccountCircle />
-                                        <input type="email"
-                                            name="email" placeholder="Email"
-                                            value={form.email}
-                                            onChange={handleChange} required />
-                                    </div>
-                                    {errors.email && <p className="error-message-Signup">{errors.email}</p>}
-                                </div>
-                                <div className="input-field-Signup">
-                                    <p className="tilted-Signup">Password</p>
-                                    <div className="input-icon-Signup">
-                                        <MdOutlineAccountCircle />
-                                        <input
-                                            type={showPassword ? "text" : "password"}
-                                            name="password" placeholder="Password"
-                                            value={form.password}
-                                            onChange={handleChange} required />
-                                        <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
-                                            {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                        </span>
-                                    </div>
-                                    {errors.password && <p className="error-message-Signup">{errors.password}</p>}
-                                </div>
-                                <div className="input-field-Signup">
-                                    <p className="tilted-Signup">Enter again the password</p>
-                                    <div className="input-icon-Signup">
-                                        <RiLockPasswordLine />
-                                        <input
-                                            type={showPasswordConfirm ? "text" : "password"}
-                                            name="confirmPassword"
-                                            placeholder="Confirm Password"
-                                            value={form.confirmPassword}
-                                            onChange={handleChange} required />
-                                        <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
-                                            {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                        </span>
-                                    </div>
-                                    {errors.confirmPassword && <p className="error-message-Signup">{errors.confirmPassword}</p>}
+                <div className="form-container-Signup">
+                    <div className="header-Signup">
+                        <div className="text-Signup">Create Account</div>
+                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="inputs-Signup">
+                            <div className="input-field-Signup">
+                                <p className="tilted-Signup">Full name</p>
+                                <div className="input-icon-Signup">
+                                    <MdOutlineDriveFileRenameOutline />
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        placeholder="Full Name"
+                                        value={form.fullName}
+                                        onChange={handleChange} required />
                                 </div>
                             </div>
-                            <button type="submit" className="bttn-send-Signup">
-                                <IoSend /> Register
-                            </button>
-                            {errorMsg && <p className="error-message-Signup">{errorMsg}</p>}
-                            {successMsg && <p className="success-message-Signup">{successMsg}</p>}
-                            <br></br>
-                            <br></br>
-                            <button type="button" className="bttn-have-acc-Signup" onClick={() => navigate("/login")}>Having Account?</button>
+                            <div className="input-field-Signup">
+                                <p className="tilted-Signup">Username</p>
+                                <div className="input-icon-Signup">
+                                    <MdOutlineDriveFileRenameOutline />
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        placeholder="Username"
+                                        value={form.username}
+                                        onChange={handleChange} required />
+                                </div>
+                            </div>
+                            <div className="input-field-Signup">
+                                <p className="tilted-Signup">E-mail</p>
+                                <div className="input-icon-Signup">
+                                    <MdOutlineAccountCircle />
+                                    <input type="email"
+                                        name="email" placeholder="Email"
+                                        value={form.email}
+                                        onChange={handleChange} required />
+                                </div>
+                                {errors.email && <p className="error-message-Signup">{errors.email}</p>}
+                            </div>
+                            <div className="input-field-Signup">
+                                <p className="tilted-Signup">Password</p>
+                                <div className="input-icon-Signup">
+                                    <MdOutlineAccountCircle />
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="password" placeholder="Password"
+                                        value={form.password}
+                                        onChange={handleChange} required />
+                                    <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                                        {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                    </span>
+                                </div>
+                                {errors.password && <p className="error-message-Signup">{errors.password}</p>}
+                            </div>
+                            <div className="input-field-Signup">
+                                <p className="tilted-Signup">Enter again the password</p>
+                                <div className="input-icon-Signup">
+                                    <RiLockPasswordLine />
+                                    <input
+                                        type={showPasswordConfirm ? "text" : "password"}
+                                        name="confirmPassword"
+                                        placeholder="Confirm Password"
+                                        value={form.confirmPassword}
+                                        onChange={handleChange} required />
+                                    <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
+                                        {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                    </span>
+                                </div>
+                                {errors.confirmPassword && <p className="error-message-Signup">{errors.confirmPassword}</p>}
+                            </div>
+                        </div>
+                        <button type="submit" className="bttn-send-Signup">
+                            <IoSend /> Register
+                        </button>
+                        {errorMsg && <p className="error-message-Signup">{errorMsg}</p>}
+                        {successMsg && <p className="success-message-Signup">{successMsg}</p>}
+                        <br></br>
+                        <br></br>
+                        <button type="button" className="bttn-have-acc-Signup" onClick={() => navigate("/login")}>Having Account?</button>
 
-                        </form>
-                    </div>
-                </body>
+                    </form>
+                </div>
             </div>
         </>
     );
