@@ -1,25 +1,27 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const { middleware, errorHandler } = require("supertokens-node/framework/express");
-const supertokens = require("supertokens-node");
-const Session = require("supertokens-node/recipe/session");
-const ThirdParty = require("supertokens-node/recipe/thirdparty");
-const EmailPassword = require("supertokens-node/recipe/emailpassword");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import supertokens from "supertokens-node";
+import Session from "supertokens-node/recipe/session";
+import ThirdParty from "supertokens-node/recipe/thirdparty";
+import EmailPassword from "supertokens-node/recipe/emailpassword";
+import { middleware, errorHandler } from "supertokens-node/framework/express";
+import dotenv from "dotenv";
 
-// ✅ Initialize Supertokens properly
+dotenv.config();
+
+// ✅ Initialize Supertokens
 supertokens.init({
     framework: "express",
     supertokens: {
-        connectionURI: "https://try.supertokens.io", // Change this if self-hosting
-        apiKey: process.env.SUPERTOKENS_API_KEY, 
+        connectionURI: "https://try.supertokens.io",
+        apiKey: process.env.SUPERTOKENS_API_KEY,
     },
     appInfo: {
         appName: "Quantum Coders",
         apiDomain: "http://localhost:3001",
         websiteDomain: "http://localhost:5173",
-        apiBasePath: "/auth",  // ✅ SuperTokens' authentication routes
+        apiBasePath: "/auth",
         websiteBasePath: "/auth",
     },
     recipeList: [
@@ -33,9 +35,16 @@ supertokens.init({
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(bodyParser.json());
-app.use(middleware());  // ✅ Automatically adds SuperTokens authentication routes
+app.use(middleware()); // ✅ SuperTokens middleware
 
-// ✅ Use SuperTokens' built-in auth routes
+// ✅ Health check endpoint
+app.get("/", (req, res) => {
+    res.send("🚀 Server is running!");
+});
+
+// ✅ Error handling for SuperTokens
 app.use(errorHandler());
 
-app.listen(3001, () => console.log("🚀 Server running on http://localhost:3001/auth"));
+// ✅ Start the server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}/auth`));

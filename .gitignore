@@ -9,3 +9,4 @@ dist/
 .env
 wireguard.conf
 
+.DS_Store

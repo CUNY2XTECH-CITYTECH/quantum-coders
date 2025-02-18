@@ -4,6 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "generate": "npx drizzle-kit generate --config ./src/drizzle/drizzle.config.ts",
     "migrate": "npx drizzle-kit migrate --config ./src/drizzle/drizzle.config.ts",
     "introspect": "npx drizzle-kit introspect --config ./src/drizzle/drizzle.config.ts"
@@ -18,5 +20,8 @@
     "pg": "^8.13.1",
     "supertokens-node": "^21.1.0",
     "tsx": "^4.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

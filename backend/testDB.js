@@ -1,8 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import dotenv from "dotenv";
-import { users } from "./src/drizzle/schema"; // Import the `users` table
-
+import { users } from "./src/drizzle/schema.ts";
 dotenv.config();
 
 const connectionString = process.env.DATABASE_URL;
@@ -16,7 +15,7 @@ const db = drizzle(sql);
 
 async function testDB() {
     try {
-        const result = await db.select().from(users); // Use `users` object instead of "users"
+        const result = await db.select().from(users);
         console.log("✅ Database connection successful! Users:", result);
     } catch (error) {
         console.error("❌ Database Error:", error);

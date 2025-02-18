@@ -10,10 +10,10 @@ if (!process.env.DATABASE_URL) {
 }
 
 export default defineConfig({
-  schema: "./src/drizzle/schema.ts",
-  out: "./migrations", 
+  schema: "./src/drizzle/schema.ts",  // Ensure this points to schema.ts
+  out: "./migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL as string, // ✅ Explicitly cast it to string
+    url: process.env.DATABASE_URL as string,
   },
 });
