@@ -63,7 +63,7 @@ const FormLogin = () => {
       console.log("Login successful", formData);
     }
     console.log("User signed up:", formData);
-    navigate("/");
+    navigate("/", { state: { signupSuccess: true } });
   };
 
   const handleForgotPassword = () => {
@@ -89,43 +89,49 @@ const FormLogin = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>
+    <div className="form-container-login">
+      <h2 className="h2-login">{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>
 
       {/* Login Form */}
       {!isForgotPassword && (
-        <form onSubmit={handleSubmit} className="form-login">
+        <form onSubmit={handleSubmit} className="form-login-login">
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <MdOutlineAccountCircle />
+            <div className="input-icon-login">
+            <label htmlFor="email" className="label-login">Email</label>
+              <MdOutlineAccountCircle className="input-icon-login"/>
+              </div>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="input-field"
+              className="input-field-login"
               aria-label="Email Address"
             />
-            {errors.email && <span className="error">{errors.email}</span>}
+            {errors.email && <span className="error-login">{errors.email}</span>}
           </div>
+          <br></br>
           <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <MdOutlineDriveFileRenameOutline />
+            <div className="input-icon-login"> 
+              <label htmlFor="password" className="label-login">Password</label> 
+              <MdOutlineDriveFileRenameOutline/>
+            </div>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="input-field"
+              className="input-field-login"
               aria-label="Password"
             />
-            {errors.password && <span className="error">{errors.password}</span>}
+            {errors.password && <span className="error-login">{errors.password}</span>}
           </div>
-          <button type="submit" className="btn-submit">Login</button>
+          <br></br>
+          <button type="submit" className="btn-submit-login">Login</button>
           <p>
-            <button type="button" onClick={handleForgotPassword} className="btn-link">
+            <button type="button" onClick={handleForgotPassword} className="btn-link-login">
               Forgot Password?
             </button>
           </p>
@@ -134,8 +140,8 @@ const FormLogin = () => {
 
       {/* Forgot Password Form */}
       {isForgotPassword && (
-        <form onSubmit={handleResetPasswordSubmit} className="form-reset">
-          <div className="form-group">
+        <form onSubmit={handleResetPasswordSubmit} className="form-reset-login">
+          <div className="form-group-login">
             <label htmlFor="resetEmail">Enter your email to reset password:</label>
             <MdOutlineDriveFileRenameOutline />
             <input
@@ -143,13 +149,13 @@ const FormLogin = () => {
               id="resetEmail"
               value={resetPasswordData.email}
               onChange={handleResetPasswordChange}
-              className="input-field"
+              className="input-field-login"
               aria-label="Reset Email Address"
             />
           </div>
-          <button type="submit" className="btn-submit">Reset Password</button>
+          <button type="submit" className="btn-submit-login">Reset Password</button>
           <p>
-            <button type="button" onClick={() => setIsForgotPassword(false)} className="btn-link">
+            <button type="button" onClick={() => setIsForgotPassword(false)} className="btn-link-login">
               Back to Login
             </button>
           </p>

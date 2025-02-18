@@ -1,43 +1,47 @@
-body {
+body .Signup-Body {
     background-color: #140352;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     font-family: 'Poppins', sans-serif;
+    padding:15px;
 }
 
-.form-container {
+.error-message-Signup {
+    color: #fff;
+}
+.form-container-Signup {
     background: linear-gradient(#1f066f, #0B60B0);
     color: #60c7ff;
     text-align: center;
     margin: 20px; 
     padding: 20px;
     border-radius: 50px;
-    width: 70%; 
+    width: 50%; 
     max-width: 100%; 
     padding-left: 100px;
     padding-right: 100px;
 }
 
 
-.button-send {
+.button-send-Signup {
     padding: 5px;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     font-size: 30px;
 }
 
-.header {
+.header-Signup {
     margin-top: 30px;
 }
 
-.text {
+.text-Signup {
     font-weight: bold;
     font-size: 3rem;
 }
 
-.inputs {
+.inputs-Signup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,19 +50,20 @@ body {
     
 }
 
-.input-field {
+.input-field-Signup {
     width: 100%;
     max-width: 80%;
-    margin:1px;
+    margin:0.5px;
 }
 
-.tilted {
+.tilted-Signup {
     font-size: 1.4rem;
     margin-bottom: 5px;
     text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-.input-icon {
+.input-icon-Signup {
     display: flex;
     align-items: center;
     background: white;
@@ -67,7 +72,7 @@ body {
     gap: 10px;
 }
 
-.input-icon svg {
+.input-icon-Signup svg {
     font-size: 20px;
     color: #3f8cff;
 }
@@ -82,7 +87,7 @@ input {
 }
 
 /*button have a account and send account*/
-.bttn-have-acc, .bttn-send {
+.bttn-have-acc-Signup, .bttn-send-Signup {
     appearance: button;
     border: solid transparent;
     border-radius: 16px;
@@ -109,20 +114,20 @@ input {
     vertical-align: middle;
     white-space: nowrap;
 }
-.bttn-have-acc{
+.bttn-have-acc-Signup{
     background-color: #186dd6;
     color: #FFFFFF;
-    width: 65%;
+    width: 35%;
     padding-bottom: 20px;
 }
 
-.bttn-send {
+.bttn-send-Signup {
     background-color: #1899D6;
     color: #FFFFFF;
-    width: 35%;
+    width: 25%;
 }
 
-.bttn-have-acc:after, .bttn-send:after {
+.bttn-have-acc-Signup:after, .bttn-send-Signup:after {
     background-clip: padding-box;
     border: solid transparent;
     border-radius: 16px;
@@ -136,28 +141,28 @@ input {
     z-index: -1;
 }
 
-.bttn-have-acc:after{
+.bttn-have-acc-Signup:after{
     background-color: #3c88e5;
 }
-.bttn-send:after {
+.bttn-send-Signup:after {
     background-color: #1CB0F6;
 }
 
-.bttn-have-acc,
-.bttn-have-acc:focus, .bttn-send, .bttn-send:focus {
+.bttn-have-acc-Signup,
+.bttn-have-acc-Signup:focus, .bttn-send-Signup, .bttn-send-Signup:focus {
     user-select: auto;
 }
 
-.bttn-have-acc:hover:not(:disabled), .bttn-send:hover:not(:disabled) {
+.bttn-have-acc-Signup:hover:not(:disabled), .bttn-send-Signup:hover:not(:disabled) {
     filter: brightness(1.1);
     -webkit-filter: brightness(1.1);
 }
 
-.bttn-have-acc:disabled, .bttn-send:disabled {
+.bttn-have-acc-Signup:disabled, .bttn-send-Signup:disabled {
     cursor: auto;
 }
 
-.bttn-have-acc:active, .bttn-send:active {
+.bttn-have-acc-Signup:active, .bttn-send-Signup:active {
     border-width: 4px 0 0;
     background: none;
 }

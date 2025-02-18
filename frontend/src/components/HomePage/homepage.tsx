@@ -1,19 +1,26 @@
-import React, { useState, useEffect} from "react";
+import /*React,*/ { useState, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./home.css";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const state = location.state as { signupSuccess?: boolean } | null;
+  const stateSignup = location.state as { signupSuccess?: boolean } | null;
+  const stateLogin = location.state as { loginSuccess?: boolean } | null;
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (state?.signupSuccess) {
+    if (stateSignup?.signupSuccess) {
       setMessage("Your account has been successfully created");
       setTimeout(() => setMessage(""), 5000);
     }
-  }, [state]);
+  }, [stateSignup]);
+  useEffect(() => {
+    if (stateLogin?.loginSuccess) {
+      setMessage("Your account has been successfully login");
+      setTimeout(() => setMessage(""), 5000);
+    }
+  }, [stateLogin]);
 
   return (
     <div className="homepage">
