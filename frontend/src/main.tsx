@@ -6,23 +6,43 @@ import {
 } from "react-router-dom";
 import RegisterForm from "./components/CreateAccount/RegisterForm";
 import FormLogin from "./components/LoginAcc/login-form";
-import Homepage from "./components/HomePage/homepage";
+//import Homepage from "./components/HomePage/homepage";
+import Home from "./components/HomePage/WeiHomepage";
 import ErrorPage from "./components/error-page";
-
+import Services from "./components/HomePage/Services"
+import About from "./components/HomePage/AboutUs"
+import Contact from "./components/HomePage/Contact"
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage />,
+    element: <Home />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/register",
     element: <RegisterForm />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/login",
     element: <FormLogin />,
+    errorElement: <ErrorPage />,
   },
+  {
+    path: "/services",
+    element: <Services/>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/about",
+    element: <About/>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/contact",
+    element: <Contact/>,
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./login-form.css";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { useNavigate } from "react-router-dom";
-
+import Header from "../HomePage/header";
 import SuperTokens from 'supertokens-web-js';
 import Session from 'supertokens-web-js/recipe/session';
 import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
@@ -91,17 +91,7 @@ const FormLogin = () => {
   return (
     <>
     <div className="homepage">
-      <header className="header">
-        <div className="left-buttons">
-          <button onClick={() => navigate("/")}>Home</button>
-          <button>About Us</button>
-        </div>
-        <h1 className="title">Quantum Coders</h1>
-        <div className="right-buttons">
-          <button onClick={() => navigate("/register")}>Sign Up</button>
-          <button onClick={() => navigate("/login")}>Log In</button>
-        </div>
-      </header>
+      <Header/>
     </div>
     <div className="form-container-login">
       <h2 className="h2-login">{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>

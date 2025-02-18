@@ -5,7 +5,7 @@ import { IoSend } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "supertokens-auth-react/recipe/emailpassword";
 import "./Style.css";
-
+import Header from "../HomePage/header";
 
 import SuperTokens from "supertokens-web-js";
 import Session from "supertokens-web-js/recipe/session";
@@ -100,107 +100,97 @@ export const RegisterForm = () => {
 
     return (
         <>
-        <div className="homepage">
-      <header className="header">
-        <div className="left-buttons">
-          <button onClick={() => navigate("/")}>Home</button>
-          <button>About Us</button>
-        </div>
-        <h1 className="title">Quantum Coders</h1>
-        <div className="right-buttons">
-          <button onClick={() => navigate("/register")}>Sign Up</button>
-          <button onClick={() => navigate("/login")}>Log In</button>
-        </div>
-      </header>
-    </div>
-        <div>
-        <body className="Signup-Body">
-            <div className="form-container-Signup">
-                <div className="header-Signup">
-                    <div className="text-Signup">Create Account</div>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="inputs-Signup">
-                        <div className="input-field-Signup">
-                            <p className="tilted-Signup">Full name</p>
-                            <div className="input-icon-Signup">
-                                <MdOutlineDriveFileRenameOutline />
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    placeholder="Full Name"
-                                    value={form.fullName}
-                                    onChange={handleChange} required />
-                            </div>
-                        </div>
-                        <div className="input-field-Signup">
-                            <p className="tilted-Signup">Username</p>
-                            <div className="input-icon-Signup">
-                                <MdOutlineDriveFileRenameOutline />
-                                <input
-                                    type="text"
-                                    name="username"
-                                    placeholder="Username"
-                                    value={form.username}
-                                    onChange={handleChange} required />
-                            </div>
-                        </div>
-                        <div className="input-field-Signup">
-                            <p className="tilted-Signup">E-mail</p>
-                            <div className="input-icon-Signup">
-                                <MdOutlineAccountCircle />
-                                <input type="email"
-                                    name="email" placeholder="Email"
-                                    value={form.email}
-                                    onChange={handleChange} required />
-                            </div>
-                            {errors.email && <p className="error-message-Signup">{errors.email}</p>}
-                        </div>
-                        <div className="input-field-Signup">
-                            <p className="tilted-Signup">Password</p>
-                            <div className="input-icon-Signup">
-                                <MdOutlineAccountCircle />
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    name="password" placeholder="Password"
-                                    value={form.password}
-                                    onChange={handleChange} required />
-                                <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
-                                    {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                </span>
-                            </div>
-                            {errors.password && <p className="error-message-Signup">{errors.password}</p>}
-                        </div>
-                        <div className="input-field-Signup">
-                            <p className="tilted-Signup">Enter again the password</p>
-                            <div className="input-icon-Signup">
-                                <RiLockPasswordLine />
-                                <input
-                                    type={showPasswordConfirm ? "text" : "password"}
-                                    name="confirmPassword"
-                                    placeholder="Confirm Password"
-                                    value={form.confirmPassword}
-                                    onChange={handleChange} required />
-                                <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
-                                    {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
-                                </span>
-                            </div>
-                            {errors.confirmPassword && <p className="error-message-Signup">{errors.confirmPassword}</p>}
-                        </div>
-                    </div>
-                    <button type="submit" className="bttn-send-Signup">
-                        <IoSend /> Register
-                    </button>
-                    {errorMsg && <p className="error-message-Signup">{errorMsg}</p>}
-                    {successMsg && <p className="success-message-Signup">{successMsg}</p>}
-                    <br></br>
-                    <br></br>
-                    <button type="button" className="bttn-have-acc-Signup" onClick={() => navigate("/login")}>Having Account?</button>
-
-                </form>
+            <div className="homepage">
+                <Header />
             </div>
-        </body>
-        </div>
+            <div>
+                <body className="Signup-Body">
+                    <div className="form-container-Signup">
+                        <div className="header-Signup">
+                            <div className="text-Signup">Create Account</div>
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="inputs-Signup">
+                                <div className="input-field-Signup">
+                                    <p className="tilted-Signup">Full name</p>
+                                    <div className="input-icon-Signup">
+                                        <MdOutlineDriveFileRenameOutline />
+                                        <input
+                                            type="text"
+                                            name="fullName"
+                                            placeholder="Full Name"
+                                            value={form.fullName}
+                                            onChange={handleChange} required />
+                                    </div>
+                                </div>
+                                <div className="input-field-Signup">
+                                    <p className="tilted-Signup">Username</p>
+                                    <div className="input-icon-Signup">
+                                        <MdOutlineDriveFileRenameOutline />
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            placeholder="Username"
+                                            value={form.username}
+                                            onChange={handleChange} required />
+                                    </div>
+                                </div>
+                                <div className="input-field-Signup">
+                                    <p className="tilted-Signup">E-mail</p>
+                                    <div className="input-icon-Signup">
+                                        <MdOutlineAccountCircle />
+                                        <input type="email"
+                                            name="email" placeholder="Email"
+                                            value={form.email}
+                                            onChange={handleChange} required />
+                                    </div>
+                                    {errors.email && <p className="error-message-Signup">{errors.email}</p>}
+                                </div>
+                                <div className="input-field-Signup">
+                                    <p className="tilted-Signup">Password</p>
+                                    <div className="input-icon-Signup">
+                                        <MdOutlineAccountCircle />
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            name="password" placeholder="Password"
+                                            value={form.password}
+                                            onChange={handleChange} required />
+                                        <span onClick={() => setShowPassword(!showPassword)} className="eye-icon">
+                                            {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                        </span>
+                                    </div>
+                                    {errors.password && <p className="error-message-Signup">{errors.password}</p>}
+                                </div>
+                                <div className="input-field-Signup">
+                                    <p className="tilted-Signup">Enter again the password</p>
+                                    <div className="input-icon-Signup">
+                                        <RiLockPasswordLine />
+                                        <input
+                                            type={showPasswordConfirm ? "text" : "password"}
+                                            name="confirmPassword"
+                                            placeholder="Confirm Password"
+                                            value={form.confirmPassword}
+                                            onChange={handleChange} required />
+                                        <span onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} className="eye-icon">
+                                            {showPasswordConfirm ? <RiEyeLine /> : <RiEyeCloseLine />}
+                                        </span>
+                                    </div>
+                                    {errors.confirmPassword && <p className="error-message-Signup">{errors.confirmPassword}</p>}
+                                </div>
+                            </div>
+                            <button type="submit" className="bttn-send-Signup">
+                                <IoSend /> Register
+                            </button>
+                            {errorMsg && <p className="error-message-Signup">{errorMsg}</p>}
+                            {successMsg && <p className="success-message-Signup">{successMsg}</p>}
+                            <br></br>
+                            <br></br>
+                            <button type="button" className="bttn-have-acc-Signup" onClick={() => navigate("/login")}>Having Account?</button>
+
+                        </form>
+                    </div>
+                </body>
+            </div>
         </>
     );
 };
