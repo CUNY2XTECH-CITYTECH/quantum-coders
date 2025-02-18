@@ -61,9 +61,9 @@ const FormLogin = () => {
     if (validateLoginForm()) {
       // Proceed with login logic
       console.log("Login successful", formData);
+      console.log("User signed up:", formData);
+      navigate("/", { state: { signupSuccess: true } });
     }
-    console.log("User signed up:", formData);
-    navigate("/", { state: { signupSuccess: true } });
   };
 
   const handleForgotPassword = () => {

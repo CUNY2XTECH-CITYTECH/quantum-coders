@@ -5,7 +5,10 @@ const Contact: React.FC = () => {
         color: "white",
         backgroundColor: "DodgerBlue",
         padding: "10px",
-        fontFamily: "Arial"
+        fontFamily: "Arial",
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems:"center"
     };
     return (
         <div style={mystyle}>

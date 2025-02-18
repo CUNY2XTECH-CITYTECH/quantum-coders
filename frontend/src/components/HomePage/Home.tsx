@@ -10,6 +10,7 @@ const Home: React.FC = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
+  /*
   // Check for success messages (Signup/Login)
   useEffect(() => {
     if (location.state?.signupSuccess) {
@@ -20,7 +21,8 @@ const Home: React.FC = () => {
       setTimeout(() => setMessage(""), 5000);
     }
   }, [location.state]);
-  /*
+  
+  
   // Redirect if no session exists
   useEffect(() => {
     if (!loading && !doesSessionExist) {
@@ -48,15 +50,8 @@ const Home: React.FC = () => {
     };
     fetchUsername();
   }, [userId]);
-  */
 
-  // Logout function
-  const handleLogout = async () => {
-    await signOut();
-    navigate("/login");
-  };
-
-  /*
+  
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center">
@@ -65,11 +60,17 @@ const Home: React.FC = () => {
     );
   }*/
 
-  /*//if there is a user, ppear the button log out
+  /*// need a if there is a user, appear the button log out
+    // Logout function
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/login");
+  };
     <button onClick={handleLogout} className="mt-6 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
       Logout
     </button>
   */
+  const WelcomeMsg = ` ${username || ""}`;//if on top work, add before ${}, this 'Welcome'
   return (
     <div className="homepage">
       {/* Success Message Display */}
@@ -79,7 +80,7 @@ const Home: React.FC = () => {
 
       {/* Main Content */}
       <main className="content">
-        <h2>Welcome, {username || ""}!</h2>
+        <h2> {WelcomeMsg}</h2>
         {/*<p>Your User ID: {userId}</p>*/}
         <nav className="mt-6 space-x-4">
           <button onClick={() => navigate("/about")} className="home-button">About Us</button>

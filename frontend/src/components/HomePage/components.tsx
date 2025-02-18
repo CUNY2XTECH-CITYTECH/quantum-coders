@@ -1,4 +1,4 @@
-/*import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { signOut } from "supertokens-auth-react/recipe/session";
 import { useNavigate } from "react-router-dom";
@@ -40,4 +40,4 @@ const Home: React.FC = () => {
   );   
 };
 
-export default Home;*/
+export default Home;

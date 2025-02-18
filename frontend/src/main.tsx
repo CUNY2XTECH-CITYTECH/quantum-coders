@@ -6,12 +6,13 @@ import {
 } from "react-router-dom";
 import RegisterForm from "./components/CreateAccount/RegisterForm";
 import FormLogin from "./components/LoginAcc/login-form";
-//import Homepage from "./components/HomePage/homepage";
-import Home from "./components/HomePage/WeiHomepage";
+import Home from "./components/HomePage/Home";
 import ErrorPage from "./components/error-page";
 import Services from "./components/HomePage/Services"
 import About from "./components/HomePage/AboutUs"
 import Contact from "./components/HomePage/Contact"
+
+//here conatin all reouter for the homepage
 const router = createBrowserRouter([
   {
     path: "/",

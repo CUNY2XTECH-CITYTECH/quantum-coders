@@ -28,7 +28,10 @@
     color:rgb(0, 255, 170);
   }
   .title {
-    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 44px;
     font-weight: bold;
     text-align: center;
   }
@@ -75,6 +78,7 @@
   z-index: 0;
   padding:40px;
   border-radius: 5%;
+  width:220px;
 }
 
 @media (min-width: 100%) {
