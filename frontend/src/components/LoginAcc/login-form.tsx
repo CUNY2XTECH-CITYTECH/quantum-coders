@@ -89,6 +89,20 @@ const FormLogin = () => {
   };
 
   return (
+    <>
+    <div className="homepage">
+      <header className="header">
+        <div className="left-buttons">
+          <button onClick={() => navigate("/")}>Home</button>
+          <button>About Us</button>
+        </div>
+        <h1 className="title">Quantum Coders</h1>
+        <div className="right-buttons">
+          <button onClick={() => navigate("/register")}>Sign Up</button>
+          <button onClick={() => navigate("/login")}>Log In</button>
+        </div>
+      </header>
+    </div>
     <div className="form-container-login">
       <h2 className="h2-login">{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>
 
@@ -142,8 +156,11 @@ const FormLogin = () => {
       {isForgotPassword && (
         <form onSubmit={handleResetPasswordSubmit} className="form-reset-login">
           <div className="form-group-login">
+            <div className="input-icon-login"> 
             <label htmlFor="resetEmail">Enter your email to reset password:</label>
-            <MdOutlineDriveFileRenameOutline />
+            <br></br>
+            </div>
+            <div className="input-icon-login"> 
             <input
               type="email"
               id="resetEmail"
@@ -152,6 +169,7 @@ const FormLogin = () => {
               className="input-field-login"
               aria-label="Reset Email Address"
             />
+          </div>
           </div>
           <button type="submit" className="btn-submit-login">Reset Password</button>
           <p>
@@ -162,6 +180,7 @@ const FormLogin = () => {
         </form>
       )}
     </div>
+    </>
   );
 };
 

@@ -100,6 +100,19 @@ export const RegisterForm = () => {
 
     return (
         <>
+        <div className="homepage">
+      <header className="header">
+        <div className="left-buttons">
+          <button onClick={() => navigate("/")}>Home</button>
+          <button>About Us</button>
+        </div>
+        <h1 className="title">Quantum Coders</h1>
+        <div className="right-buttons">
+          <button onClick={() => navigate("/register")}>Sign Up</button>
+          <button onClick={() => navigate("/login")}>Log In</button>
+        </div>
+      </header>
+    </div>
         <div>
         <body className="Signup-Body">
             <div className="form-container-Signup">
