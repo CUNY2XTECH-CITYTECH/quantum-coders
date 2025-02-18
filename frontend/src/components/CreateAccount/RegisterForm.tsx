@@ -11,6 +11,9 @@ import SuperTokens from "supertokens-web-js";
 import Session from "supertokens-web-js/recipe/session";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
+
+//make unique id
+import { nanoid } from "nanoid";
 SuperTokens.init({
     appInfo: {
         apiDomain: "http://localhost:3001",
@@ -75,8 +78,10 @@ export const RegisterForm = () => {
         }
 
         try {
+            const userId = nanoid(); // Generate unique ID
             let response = await signUp({
                 formFields: [
+                    { id: "id", value: userId }, 
                     { id: "email", value: form.email },
                     { id: "password", value: form.password },
                     { id: "username", value: form.username },
