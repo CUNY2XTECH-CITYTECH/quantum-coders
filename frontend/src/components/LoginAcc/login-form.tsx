@@ -55,9 +55,10 @@ const FormLogin = () => {
       [name]: value,
     }));
   };
-  console.log("data send is",formData);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("data send is",formData);
     if (validateLoginForm()) {
       try {
         let response = await signIn({
