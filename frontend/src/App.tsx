@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import './login-form.css';
 import FormLogin from './components/LoginAcc/login-form';
 
@@ -10,4 +10,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;*/
