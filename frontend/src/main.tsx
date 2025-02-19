@@ -6,13 +6,30 @@ import {
 } from "react-router-dom";
 
 import RegisterForm from "./components/CreateAccount/RegisterForm";
-import RegisterWei from "./components/HomePage/weiRegister";
 import FormLogin from "./components/LoginAcc/login-form";
 import Home from "./components/HomePage/Home";
 import ErrorPage from "./components/error-page";
 import Services from "./components/HomePage/Services";
 import About from "./components/HomePage/AboutUs";
 import Contact from "./components/HomePage/Contact";
+
+
+import SuperTokens from "supertokens-auth-react";
+import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import Session from "supertokens-auth-react/recipe/session";
+SuperTokens.init({
+    appInfo: {
+      appName: "Quantum Coders",
+      apiDomain: "http://localhost:3001",
+      websiteDomain: "http://localhost:5173",
+      apiBasePath: "/auth",
+      websiteBasePath: "/auth",
+    },
+    recipeList: [
+      EmailPassword.init(),
+      Session.init(),
+    ],
+  });
 
 // Here: contains all routes for the homepage
 const router = createBrowserRouter([

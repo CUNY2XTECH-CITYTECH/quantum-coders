@@ -8,6 +8,9 @@ body .Signup-Body {
     padding:15px;
 }
 
+.form-container-Signup{
+    align-items: center;
+}
 .error-message-Signup {
     color: #fff;
 }

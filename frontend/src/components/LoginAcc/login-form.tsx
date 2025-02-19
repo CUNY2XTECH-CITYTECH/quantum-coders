@@ -7,17 +7,17 @@ import Header from "../HomePage/header";
 import SuperTokens from 'supertokens-web-js';
 import Session from 'supertokens-web-js/recipe/session';
 import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
-
+import { signIn } from "supertokens-auth-react/recipe/emailpassword"
 SuperTokens.init({
-    appInfo: {
-        apiDomain: "http://localhost:3001",
-        apiBasePath: "/auth",
-        appName: "Quantum-Coders",
-    },
-    recipeList: [
-        Session.init(),
-        EmailPassword.init(),
-    ],
+  appInfo: {
+    apiDomain: "http://localhost:3001",
+    apiBasePath: "/auth",
+    appName: "Quantum-Coders",
+  },
+  recipeList: [
+    Session.init(),
+    EmailPassword.init(),
+  ],
 });
 
 // Interfaces for types
@@ -55,14 +55,25 @@ const FormLogin = () => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  console.log("data send is",formData);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateLoginForm()) {
-      // Proceed with login logic
-      console.log("Login successful", formData);
-      console.log("User signed up:", formData);
-      navigate("/", { state: { signupSuccess: true } });
+      try {
+        let response = await signIn({
+          formFields: [
+            { id: "email", value: formData.email },
+            { id: "password", value: formData.password }
+          ]
+        });
+        if (response.status == "OK") {
+          // Proceed with login logic
+          console.log("Login successful", formData);
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("LogIn Error: ", error);
+      }
     }
   };
 
@@ -90,88 +101,88 @@ const FormLogin = () => {
 
   return (
     <>
-    <div className="homepage">
-      <Header/>
-    </div>
-    <div className="form-container-login">
-      <h2 className="h2-login">{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>
+      <div className="homepage">
+        <Header />
+      </div>
+      <div className="form-container-login">
+        <h2 className="h2-login">{isForgotPassword ? 'Reset Password' : 'Login Form'}</h2>
 
-      {/* Login Form */}
-      {!isForgotPassword && (
-        <form onSubmit={handleSubmit} className="form-login-login">
-          <div className="form-group">
-            <div className="input-icon-login">
-            <label htmlFor="email" className="label-login">Email</label>
-              <MdOutlineAccountCircle className="input-icon-login"/>
+        {/* Login Form */}
+        {!isForgotPassword && (
+          <form onSubmit={handleSubmit} className="form-login-login">
+            <div className="form-group">
+              <div className="input-icon-login">
+                <label htmlFor="email" className="label-login">Email</label>
+                <MdOutlineAccountCircle className="input-icon-login" />
               </div>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="input-field-login"
-              aria-label="Email Address"
-            />
-            {errors.email && <span className="error-login">{errors.email}</span>}
-          </div>
-          <br></br>
-          <div className="form-group">
-            <div className="input-icon-login"> 
-              <label htmlFor="password" className="label-login">Password</label> 
-              <MdOutlineDriveFileRenameOutline/>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="input-field-login"
+                aria-label="Email Address"
+              />
+              {errors.email && <span className="error-login">{errors.email}</span>}
             </div>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="input-field-login"
-              aria-label="Password"
-            />
-            {errors.password && <span className="error-login">{errors.password}</span>}
-          </div>
-          <br></br>
-          <button type="submit" className="btn-submit-login">Login</button>
-          <p>
-            <button type="button" onClick={handleForgotPassword} className="btn-link-login">
-              Forgot Password?
-            </button>
-          </p>
-        </form>
-      )}
-
-      {/* Forgot Password Form */}
-      {isForgotPassword && (
-        <form onSubmit={handleResetPasswordSubmit} className="form-reset-login">
-          <div className="form-group-login">
-            <div className="input-icon-login"> 
-            <label htmlFor="resetEmail">Enter your email to reset password:</label>
             <br></br>
+            <div className="form-group">
+              <div className="input-icon-login">
+                <label htmlFor="password" className="label-login">Password</label>
+                <MdOutlineDriveFileRenameOutline />
+              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="input-field-login"
+                aria-label="Password"
+              />
+              {errors.password && <span className="error-login">{errors.password}</span>}
             </div>
-            <div className="input-icon-login"> 
-            <input
-              type="email"
-              id="resetEmail"
-              value={resetPasswordData.email}
-              onChange={handleResetPasswordChange}
-              className="input-field-login"
-              aria-label="Reset Email Address"
-            />
-          </div>
-          </div>
-          <button type="submit" className="btn-submit-login">Reset Password</button>
-          <p>
-            <button type="button" onClick={() => setIsForgotPassword(false)} className="btn-link-login">
-              Back to Login
-            </button>
-          </p>
-        </form>
-      )}
-    </div>
-    </>
-  );
-};
+            <br></br>
+            <button type="submit" className="btn-submit-login">Login</button>
+            <p>
+              <button type="button" onClick={handleForgotPassword} className="btn-link-login">
+                Forgot Password?
+              </button>
+            </p>
+          </form>
+        )}
 
-export default FormLogin;
+        {/* Forgot Password Form */}
+        {isForgotPassword && (
+          <form onSubmit={handleResetPasswordSubmit} className="form-reset-login">
+            <div className="form-group-login">
+              <div className="input-icon-login">
+                <label htmlFor="resetEmail">Enter your email to reset password:</label>
+                <br></br>
+              </div>
+              <div className="input-icon-login">
+                <input
+                  type="email"
+                  id="resetEmail"
+                  value={resetPasswordData.email}
+                  onChange={handleResetPasswordChange}
+                  className="input-field-login"
+                  aria-label="Reset Email Address"
+                />
+              </div>
+            </div>
+            <button type="submit" className="btn-submit-login">Reset Password</button>
+            <p>
+              <button type="button" onClick={() => setIsForgotPassword(false)} className="btn-link-login">
+                Back to Login
+              </button>
+            </p>
+          </form>
+        )}
+      </div>
+    </>
+  )
+}
+
+export default FormLogin
