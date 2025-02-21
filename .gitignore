@@ -1,0 +1,12 @@
+# Ignore environment files
+.env
+
+# Ignore Node modules
+node_modules/
+
+# Ignore build files (if applicable)
+dist/
+.env
+wireguard.conf
+
+.DS_Store

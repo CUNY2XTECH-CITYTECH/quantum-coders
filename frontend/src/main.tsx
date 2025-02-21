@@ -1,10 +1,55 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router-dom";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import RegisterForm from "./components/CreateAccount/RegisterForm";
+import RegisterWei from "./components/HomePage/weiRegister";
+import FormLogin from "./components/LoginAcc/login-form";
+import Home from "./components/HomePage/Home";
+import ErrorPage from "./components/error-page";
+import Services from "./components/HomePage/Services";
+import About from "./components/HomePage/AboutUs";
+import Contact from "./components/HomePage/Contact";
+
+// Here: contains all routes for the homepage
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Home />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/register",
+        element: <RegisterForm />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/login",
+        element: <FormLogin />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/services",
+        element: <Services />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/about",
+        element: <About />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/contact",
+        element: <Contact />,
+        errorElement: <ErrorPage />,
+    }
+]);
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
+);
