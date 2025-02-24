@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSessionContext, signOut } from "supertokens-auth-react/recipe/session";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./home.css";
+
 import Header from "./header";
 const Home: React.FC = () => {
   //const { loading, userId, doesSessionExist } = useSessionContext();

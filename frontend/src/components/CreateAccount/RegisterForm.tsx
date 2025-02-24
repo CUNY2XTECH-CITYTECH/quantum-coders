@@ -7,7 +7,21 @@ import { signUp } from "supertokens-auth-react/recipe/emailpassword"
 import "./Style.css";
 import Header from "../HomePage/header"
 
-import "./config/supertokensConfig"
+import "../../config/supertokensConfig"
+/*import SuperTokens from 'supertokens-web-js';
+import Session from 'supertokens-web-js/recipe/session';
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
+SuperTokens.init({
+  appInfo: {
+    apiDomain: "http://localhost:3001",
+    apiBasePath: "/auth",
+    appName: "Quantum-Coders",
+  },
+  recipeList: [
+    Session.init(),
+    EmailPassword.init(),
+  ],
+})*/
 
 export const RegisterForm = () => {
     const navigate = useNavigate();

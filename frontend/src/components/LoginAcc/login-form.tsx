@@ -4,10 +4,12 @@ import "./login-form.css";
 import { MdOutlineAccountCircle, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { useNavigate } from "react-router-dom";
 import Header from "../HomePage/header";
-import SuperTokens from 'supertokens-web-js';
+
+import { signIn } from "supertokens-auth-react/recipe/emailpassword"
+import "../../config/supertokensConfig"
+/*import SuperTokens from 'supertokens-web-js';
 import Session from 'supertokens-web-js/recipe/session';
 import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
-import { signIn } from "supertokens-auth-react/recipe/emailpassword"
 SuperTokens.init({
   appInfo: {
     apiDomain: "http://localhost:3001",
@@ -18,7 +20,7 @@ SuperTokens.init({
     Session.init(),
     EmailPassword.init(),
   ],
-});
+})*/
 
 // Interfaces for types
 interface FormData {
