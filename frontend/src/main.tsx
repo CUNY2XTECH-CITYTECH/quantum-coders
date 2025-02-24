@@ -13,7 +13,7 @@ import Services from "./components/HomePage/Services";
 import About from "./components/HomePage/AboutUs";
 import Contact from "./components/HomePage/Contact";
 
-import './config/supertokensConfig'
+//import './config/supertokensConfig'
 /*
 //main initalize the superTokens, not need to import the superTokens in the login-form.tsx and RegisterForm.tsx
 import SuperTokens from "supertokens-auth-react";
