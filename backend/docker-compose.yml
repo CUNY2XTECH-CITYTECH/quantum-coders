@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   postgres:
@@ -14,5 +13,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    build: .
+    container_name: backend-service
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:quantum123@shared-postgres-db:5432/quantum_coders
+    networks:
+      - backend_network
+
 volumes:
   postgres_data:
+
+networks:
+  backend_network:
