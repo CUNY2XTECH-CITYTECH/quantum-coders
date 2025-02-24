@@ -69,7 +69,8 @@ export const RegisterForm = () => {
             })
 
             if (response.status === "OK") {
-                setSuccessMsg("Sign-Up Successful! Redirecting...");
+                setSuccessMsg("Sign-Up Successful! Redirecting...")
+                console.log("Sending to SuperTokens:", form)
                 setTimeout(() => navigate("/", { state: { signupSuccess: true } }), 3000)
                 console.log("The assigned id is ", response.user.id)
             } else {
@@ -78,8 +79,8 @@ export const RegisterForm = () => {
         } catch (error) {
             console.error("Sign-Up Error:", error)
             setErrorMsg("An error occurred. Please try again.")
-        }
-        console.log("Sending to SuperTokens:", form)
+        }        
+        console.log("Form information:", form)
     };
 
     return (

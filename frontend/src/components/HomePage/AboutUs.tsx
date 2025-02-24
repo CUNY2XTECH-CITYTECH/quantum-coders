@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "./header"
 
 const About: React.FC = () => {
     const mystyle = {
@@ -12,6 +13,7 @@ const About: React.FC = () => {
       };
   return (
     <div style={mystyle}>
+      <Header/>
       <h1>About Us</h1>
       <p>Welcome to the About page!</p>
     </div>

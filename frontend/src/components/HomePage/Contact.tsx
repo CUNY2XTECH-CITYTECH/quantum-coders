@@ -1,5 +1,5 @@
 import React from "react";
-
+import Header from "./header"
 const Contact: React.FC = () => {
     const mystyle = {
         color: "white",
@@ -11,7 +11,8 @@ const Contact: React.FC = () => {
         alignItems:"center"
     };
     return (
-        <div style={mystyle}>
+        <div style={mystyle}>       
+            <Header/>
             <h1>Contact Us</h1>
             <p>Feel free to reach out to us through this page.</p>
         </div>

@@ -1,6 +1,6 @@
 
 import React from "react";
-
+import Header from "./header"
 const Services: React.FC = () => {
   const mystyle = {
     color: "white",
@@ -13,6 +13,7 @@ const Services: React.FC = () => {
   };
   return (
     <div style={mystyle}>
+      <Header />
       <h1>Our Services</h1>
       <p>Learn more about the services we offer.</p>
     </div>
