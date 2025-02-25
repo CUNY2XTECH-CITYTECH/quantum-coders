@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-
     postgres:
       image: postgres
       restart: always
@@ -11,10 +10,24 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_DB=test2
       volumes:
-        - postgres_data: /var/lib/postgresql/data
+        - postgres_data:/var/run/postgresql/data
+      healthcheck: 
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 5s
+        retries: 3
+    migrations:
+      build: .
+      depends_on:
+        postgres:
+          condition: service_healthy
+      environment:
+        - DATABASE_URL="postgresql://postgres:postgres@localhost:5432/test2"
 
     
     supertokens:
       image: registry.supertokens.io/supertokens/supertokens-postgresql
+
 volumes:
   postgres_data:
+ 
