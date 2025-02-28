@@ -1,0 +1,1 @@
+-- ALTER TABLE "users" ADD COLUMN "favoriteFood" varchar(1000);
