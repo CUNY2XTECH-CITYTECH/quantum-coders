@@ -1,13 +1,21 @@
-/*import React from 'react';
-import './login-form.css';
-import FormLogin from './components/LoginAcc/login-form';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
+import Home from "./components/HomePage/Home";
+import Login from "./components/LoginAcc/login-form";
+import Register from "./components/CreateAccount/RegisterForm";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <FormLogin />
-    </div>
+    <Router>
+      <SessionAuth> {/* Ensure all routes are inside SessionAuth */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </SessionAuth>
+    </Router>
   );
-}
+};
 
-export default App;*/
+export default App;

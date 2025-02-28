@@ -88,3 +88,10 @@ body {
   align-items: center;
   margin-right: 10px;
 }
+
+.success-message{
+  text-align: center;
+  color:#ccc;
+  font-size: 20px;
+  padding: 5px;
+}
