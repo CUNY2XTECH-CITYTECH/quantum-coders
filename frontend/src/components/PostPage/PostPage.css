@@ -1,0 +1,46 @@
+.post {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .comments {
+    margin-top: 20px;
+  }
+  
+  .comment {
+    padding: 10px;
+    background-color: #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .comment-form textarea,
+  .comment-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .comment-form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .comment-form button:hover {
+    background-color: #45a049;
+  }
+  
