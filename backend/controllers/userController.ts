@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { db } from '../src/drizzle/db';
+import { database } from '../src/drizzle/db';
 import { usersTable } from '../models/User';
 import { eq } from 'drizzle-orm';
 import AWS from 'aws-sdk';
@@ -44,7 +44,7 @@ export const uploadProfileImage = async (req: Request, res: Response) => {
   const imageUrl = file.location; // S3 URL
 
   try {
-    await db.update(usersTable)
+    await database.update(usersTable)
       .set({ profileImageUrl: imageUrl })
       .where(eq(usersTable.id, Number(id)));
 
