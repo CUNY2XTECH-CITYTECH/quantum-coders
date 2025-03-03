@@ -1,0 +1,212 @@
+body .Signup-Body {
+    background-color: #140352;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    padding:15px;
+}
+
+.form-container-Signup{
+    align-items: center;
+}
+.error-message-Signup {
+    color: #fff;
+}
+.form-container-Signup {
+    background: linear-gradient(#1f066f, #0B60B0);
+    color: #60c7ff;
+    text-align: center;
+    margin: 20px; 
+    padding: 20px;
+    border-radius: 50px;
+    width: 50%; 
+    max-width: 100%; 
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+
+.button-send-Signup {
+    padding: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+}
+
+.header-Signup {
+    margin-top: 30px;
+}
+
+.text-Signup {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.inputs-Signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 30px;
+    
+}
+
+.input-field-Signup {
+    width: 100%;
+    max-width: 80%;
+    margin:0.5px;
+}
+
+.tilted-Signup {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.input-icon-Signup {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.input-icon-Signup svg {
+    font-size: 20px;
+    color: #3f8cff;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    color: black;
+    background: transparent;
+}
+
+/*button have a account and send account*/
+.bttn-have-acc-Signup, .bttn-send-Signup {
+    appearance: button;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 10;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.bttn-have-acc-Signup{
+    background-color: #186dd6;
+    color: #FFFFFF;
+    width: 35%;
+    padding-bottom: 20px;
+}
+
+.bttn-send-Signup {
+    background-color: #1899D6;
+    color: #FFFFFF;
+    width: 25%;
+}
+
+.bttn-have-acc-Signup:after, .bttn-send-Signup:after {
+    background-clip: padding-box;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.bttn-have-acc-Signup:after{
+    background-color: #3c88e5;
+}
+.bttn-send-Signup:after {
+    background-color: #1CB0F6;
+}
+
+.bttn-have-acc-Signup,
+.bttn-have-acc-Signup:focus, .bttn-send-Signup, .bttn-send-Signup:focus {
+    user-select: auto;
+}
+
+.bttn-have-acc-Signup:hover:not(:disabled), .bttn-send-Signup:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.bttn-have-acc-Signup:disabled, .bttn-send-Signup:disabled {
+    cursor: auto;
+}
+
+.bttn-have-acc-Signup:active, .bttn-send-Signup:active {
+    border-width: 4px 0 0;
+    background: none;
+}
+
+
+/*@media screen and (max-width: 1024px) {
+
+    .text {
+        font-size: 1.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .form-container {
+        padding: 15px;
+    }
+
+    .text {
+        font-size: 1.5rem;
+    }
+
+    .input input {
+        height: 45px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .form-container {
+        width: 95%;
+        border-radius: 5%;
+    }
+
+    .text {
+        font-size: 1.2rem;
+    }
+
+    .input input {
+        height: 40px;
+        font-size: 12px;
+    }
+}*/
