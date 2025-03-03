@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const connection = postgres(process.env.DATABASE_URL!); 
-export const db = drizzle(connection);
+export const database = drizzle(connection);
 //endpoin profile 
 import 'dotenv/config';
 //import { drizzle } from 'drizzle-orm/node-postgres';
@@ -20,4 +20,4 @@ client.connect()
   .then(() => console.log('✅ Connected to PostgreSQL'))
   .catch((err) => console.error('❌ DB Connection Error:', err));
 
-export const db = drizzle(client);
+export const dstabase = drizzle(client);
