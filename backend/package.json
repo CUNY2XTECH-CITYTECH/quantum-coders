@@ -19,6 +19,7 @@
     "express": "^4.21.2",
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
+    "supertokens-auth-react": "^0.48.0",
     "supertokens-node": "^21.1.0",
     "tsx": "^4.8.0"
   },
