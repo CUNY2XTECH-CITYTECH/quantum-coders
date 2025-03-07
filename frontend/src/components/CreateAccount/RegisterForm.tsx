@@ -5,6 +5,7 @@ import { IoSend } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import "./Style.css";
 import Header from "../HomePage/header";
+
 import SuperTokens from "supertokens-web-js";
 import Session from "supertokens-web-js/recipe/session";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
@@ -18,6 +19,23 @@ SuperTokens.init({
   recipeList: [Session.init(), EmailPassword.init()],
 });
 
+/*
+import SuperTokens from 'supertokens-web-js';
+import Session from 'supertokens-web-js/recipe/session';
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
+SuperTokens.init({
+  appInfo: {
+    apiDomain: "http://localhost:3001",
+    apiBasePath: "/auth",
+    appName: "Quantum-Coders",
+  },
+  recipeList: [
+    Session.init(),
+    EmailPassword.init(), // Email/password authentication
+    EmailPassword.init(),
+  ],
+});
+*/
 export const RegisterForm = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({

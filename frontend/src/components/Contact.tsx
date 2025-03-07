@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./header"
+import Header from "./HomePage/header"; 
 const Contact: React.FC = () => {
     const mystyle = {
         color: "white",
