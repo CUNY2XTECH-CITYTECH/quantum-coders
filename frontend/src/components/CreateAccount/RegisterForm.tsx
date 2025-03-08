@@ -90,17 +90,6 @@ export const RegisterForm = () => {
     if (!isValid) return;
 
     try {
-        /*const response = await fetch("http://localhost:3001/auth/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                formFields: [
-                    { id: "email", value: form.email },
-                    { id: "password", value: form.password }
-                ]
-            })
-        });*/
-        //NOT FETCH
         const response = await EmailPassword.signUp({
             formFields: [
                 { id: "email", value: form.email },
@@ -108,14 +97,18 @@ export const RegisterForm = () => {
             ]
         });
         console.log(response);
-        /*const data = await response.json();
-
-        if (response.ok) {
-            setSuccessMsg("Sign-Up Successful! Redirecting...");
-            setTimeout(() => navigate("/login", { state: { signupSuccess: true } }), 3000);
-        } else {
-            setErrorMsg(data.message || "Sign-Up failed. Try again.");
-        }*/
+        if (response.status === "OK") {
+          setSuccessMsg("Sign-Up Successful! Redirecting...");
+          setTimeout(() => navigate("/login", { state: { signupSuccess: true } }), 3000);
+      } else {
+          if (response.status === "FIELD_ERROR") {
+            setErrorMsg(response.formFields.map(field => field.error).join(", ") || "Sign-Up failed. Try again.");
+          } else if (response.status === "SIGN_UP_NOT_ALLOWED") {
+            setErrorMsg(response.reason || "Sign-Up not allowed. Try again.");
+          } else {
+            setErrorMsg("Sign-Up failed. Try again.");
+          }
+      }
     } catch (error) {
         console.error("Sign-Up Error:", error);
         setErrorMsg("An error occurred. Please try again.");
