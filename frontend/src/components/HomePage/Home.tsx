@@ -28,12 +28,13 @@ const Home: React.FC = () => {
             console.log("JWT: ", jwt);
         }
     }*/
+   /*
     async function getJWT() {
         if (await Session.doesSessionExist()) {
             const jwt = await Session.getAccessToken();
             console.log("✅ JWT Retrieved: ", jwt);
         }
-    }
+    }*/
 
     //const doesSessionExist = session.loading ? false : (session as any).doesSessionExist;
     //const userId = session.loading ? false : (session as any).userId;
