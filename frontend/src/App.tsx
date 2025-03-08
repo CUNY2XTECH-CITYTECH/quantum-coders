@@ -1,21 +1,3 @@
-/*
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { SuperTokensWrapper } from "supertokens-auth-react"; 
-import App from "./routers";
-import "./config/supertokensConfig";
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <SuperTokensWrapper>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </SuperTokensWrapper>
-  </React.StrictMode>
-);
-*/
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import Home from "./components/HomePage/Home";
