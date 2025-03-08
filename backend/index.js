@@ -8,8 +8,12 @@ import EmailPassword from "supertokens-node/recipe/emailpassword";
 import { middleware, errorHandler } from "supertokens-node/framework/express";
 import dotenv from "dotenv";
 
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+//import { SessionRequest } from 'supertokens-node/framework/express';
+//import supertokens from 'supertokens-node';
+
 // Import Drizzle ORM connection and schema
-import { db } from "./db.js"; // ensure your db file is correctly referenced
+import { db } from "./src/drizzle/db.js"; // ensure your db file is correctly referenced
 import * as schema from "./src/drizzle/schema.js";
 
 dotenv.config();
@@ -41,9 +45,32 @@ app.use(bodyParser.json());
 app.use(middleware()); // SuperTokens middleware
 
 // Health check endpoint
+//BASIC Route
 app.get("/", (req, res) => {
     res.send("🚀 Server is running!");
 });
+
+//create the root route
+//including the post page
+app.get("/get-user-info", verifySession(), async (req, res) => {
+    let userId = req.session.getUserId();
+    
+    let userInfo = await supertokens.getUser(userId)
+    res.json(userInfo);
+    /**
+     * 
+     * userInfo contains the following info:
+     * - emails
+     * - id
+     * - timeJoined
+     * - tenantIds
+     * - phone numbers
+     * - third party login info
+     * - all the login methods associated with this user.
+     * - information about if the user's email is verified or not.
+     * 
+    */
+})
 
 // Example route to fetch users from the database using Drizzle ORM
 app.get("/users", async (req, res) => {

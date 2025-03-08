@@ -11,12 +11,14 @@
     "introspect": "npx drizzle-kit introspect --config ./src/drizzle/drizzle.config.ts"
   },
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "drizzle-kit": "^0.19.1",
     "drizzle-orm": "^0.39.2",
     "express": "^4.21.2",
+    "multer-s3": "^3.0.1",
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
     "supertokens-auth-react": "^0.48.0",
