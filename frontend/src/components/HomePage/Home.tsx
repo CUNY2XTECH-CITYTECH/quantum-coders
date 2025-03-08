@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSessionContext, signOut } from "supertokens-auth-react/recipe/session";
+import { /*useSessionContext,*/ signOut } from "supertokens-auth-react/recipe/session";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
 import Header from "./header";
@@ -9,32 +9,42 @@ import Header from "./header";
 /*
 NOT FETCH
 */
+
+
 import Session from 'supertokens-web-js/recipe/session';
 
 const Home: React.FC = () => {
 
-    
-    const session = useSessionContext();
+
+    //const session = useSessionContext();
     const navigate = useNavigate();
+    const [userId, setUserId] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
 
+    /*
     async function getJWT() {
         if (await Session.doesSessionExist()) {
-              //let userId = await Session.getUserId();
-              //set userId = await Session.getUserId();
-              let jwt = await Session.getAccessToken();
-                console.log("JWT: ", jwt);
+            let jwt = await Session.getAccessToken();
+            console.log("JWT: ", jwt);
         }
-  }
+    }*/
+    async function getJWT() {
+        if (await Session.doesSessionExist()) {
+            const jwt = await Session.getAccessToken();
+            console.log("✅ JWT Retrieved: ", jwt);
+        }
+    }
 
-    const doesSessionExist = session.loading ? false : (session as any).doesSessionExist;
-    const userId = session.loading ? false : (session as any).userId;
+    //const doesSessionExist = session.loading ? false : (session as any).doesSessionExist;
+    //const userId = session.loading ? false : (session as any).userId;
 
+    /*
     // Fetch username from the backend
     useEffect(() => {
         getJWT();
         const fetchUsername = async () => {
             if (doesSessionExist && userId) {
+                console.log("Fetching username for user ID:", userId); // Log the user ID
                 try {
                     const response = await fetch(`http://localhost:3001/api/users/${userId}`, {
                         method: "GET",
@@ -54,18 +64,54 @@ const Home: React.FC = () => {
         };
         fetchUsername();
     }, [doesSessionExist, userId]);
+    */
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (await Session.doesSessionExist()) {
+                try {
+                    const response = await fetch("http://localhost:3001/user/userinfo", {
+                        method: "GET",
+                        credentials: "include",
+                    });
+    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log("✅ User Data:", data); // Debugging log
+                        setUserId(data.userId);
+                        setUsername(data.username);
+                    } else {
+                        console.error("❌ Failed to fetch user metadata");
+                    }
+                } catch (error) {
+                    console.error("🚨 Error fetching user metadata:", error);
+                }
+            }
+        };
+    
+        fetchUserData();
+    }, []);
+    
+
+
 
     // Logout function
     const handleLogout = async () => {
         await signOut();
-        navigate("/login");
+        setUsername(null); // Clear username on logout
+        setUserId(null);   // Clear userId
+        navigate("/login"); // Redirect to login page
     };
+    
+
+
 
     return (
         <div className="homepage">
             <Header />
             <main className="content">
                 <h2>Welcome {username ? username : "Guest"}!</h2>
+                <p>Your User ID: {userId || "Loading..."}</p>
+
                 <button onClick={handleLogout} className="logout-button">
                     Logout
                 </button>
