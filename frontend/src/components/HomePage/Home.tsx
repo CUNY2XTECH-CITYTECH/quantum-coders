@@ -4,16 +4,35 @@ import { useNavigate } from "react-router-dom";
 import "./home.css";
 import Header from "./header";
 
+//import {getUser} from "supertokens-web-js";
+//import {getUser} from "supertokens-web-js/recipe/emailpassword";
+/*
+NOT FETCH
+*/
+import Session from 'supertokens-web-js/recipe/session';
+
 const Home: React.FC = () => {
+
+    
     const session = useSessionContext();
     const navigate = useNavigate();
     const [username, setUsername] = useState<string | null>(null);
+
+    async function getJWT() {
+        if (await Session.doesSessionExist()) {
+              //let userId = await Session.getUserId();
+              //set userId = await Session.getUserId();
+              let jwt = await Session.getAccessToken();
+                console.log("JWT: ", jwt);
+        }
+  }
 
     const doesSessionExist = session.loading ? false : (session as any).doesSessionExist;
     const userId = session.loading ? false : (session as any).userId;
 
     // Fetch username from the backend
     useEffect(() => {
+        getJWT();
         const fetchUsername = async () => {
             if (doesSessionExist && userId) {
                 try {

@@ -25,6 +25,7 @@ import Services from "./components/Services";
 import AboutUs from "./components/AboutUs";
 import Contact from "./components/Contact";
 import ErrorPage from "./components/error-page";
+import Profile from "./components/profile/Profile";
 
 const App = () => {
   return (
@@ -32,6 +33,8 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile/>}
+      />
       <Route
         path="/services"
         element={

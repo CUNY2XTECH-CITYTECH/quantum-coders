@@ -10,6 +10,7 @@ import SuperTokens from "supertokens-web-js";
 import Session from "supertokens-web-js/recipe/session";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
+
 SuperTokens.init({
   appInfo: {
     apiDomain: "http://localhost:3001",
@@ -89,7 +90,7 @@ export const RegisterForm = () => {
     if (!isValid) return;
 
     try {
-        const response = await fetch("http://localhost:3001/auth/signup", {
+        /*const response = await fetch("http://localhost:3001/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -98,16 +99,23 @@ export const RegisterForm = () => {
                     { id: "password", value: form.password }
                 ]
             })
+        });*/
+        //NOT FETCH
+        const response = await EmailPassword.signUp({
+            formFields: [
+                { id: "email", value: form.email },
+                { id: "password", value: form.password }
+            ]
         });
-
-        const data = await response.json();
+        console.log(response);
+        /*const data = await response.json();
 
         if (response.ok) {
             setSuccessMsg("Sign-Up Successful! Redirecting...");
             setTimeout(() => navigate("/login", { state: { signupSuccess: true } }), 3000);
         } else {
             setErrorMsg(data.message || "Sign-Up failed. Try again.");
-        }
+        }*/
     } catch (error) {
         console.error("Sign-Up Error:", error);
         setErrorMsg("An error occurred. Please try again.");
