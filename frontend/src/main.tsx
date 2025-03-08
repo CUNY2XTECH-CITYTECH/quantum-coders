@@ -59,7 +59,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import { SuperTokensWrapper } from "supertokens-auth-react";
 import App from "./App";
 import "./config/supertokensConfig"; // Ensure SuperTokens is initialized
@@ -67,9 +66,8 @@ import "./config/supertokensConfig"; // Ensure SuperTokens is initialized
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <SuperTokensWrapper>
-      <BrowserRouter>
-        <App /> {/* App handles routing */}
-      </BrowserRouter>
+      <App /> {/* Now using RouterProvider inside App */}
     </SuperTokensWrapper>
   </React.StrictMode>
 );
+

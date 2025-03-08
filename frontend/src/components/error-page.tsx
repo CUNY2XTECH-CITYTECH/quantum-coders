@@ -10,7 +10,7 @@ export default function ErrorPage() {
       <h1 className="error-page" >Oops!</h1>
       <br></br>
       <p className="error-page">Sorry, an unexpected error has occurred.</p>
-      <p className="error-page">Go back!</p>
+      <p className="error-page">The page you are looking for does not exist.</p>
     </div>
   );
 }
