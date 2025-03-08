@@ -1,17 +1,32 @@
+version: '3.8'
 
 services:
   postgres:
     image: postgres:latest
     container_name: shared-postgres-db
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: quantum123
       POSTGRES_DB: quantum_coders
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Exposing PostgreSQL for external access
+    networks:
+      - shared_network
 
-volumes:
-  postgres_data:
+  backend:
+    build: .
+    container_name: backend-server
+    restart: always
+    ports:
+      - "3001:3001"  # Ensure backend is accessible externally
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:quantum123@postgres:5432/quantum_coders
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    driver: bridge

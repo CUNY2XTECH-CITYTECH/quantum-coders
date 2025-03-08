@@ -11,22 +11,22 @@
 #EXPOSE 3001
 
 
-# Use official Node.js image
-FROM node:18
+# Use an official Node.js runtime as a parent image
+FROM node:20
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy only package.json and package-lock.json first
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Install dependencies inside the container
-RUN npm install --omit=dev  # Install only production dependencies
+# Install dependencies
+RUN npm install
 
 # Copy the rest of the application files
 COPY . .
 
-# Expose port 3001 for the backend API
+# Expose the port your app runs on
 EXPOSE 3001
 
 # Start the application
