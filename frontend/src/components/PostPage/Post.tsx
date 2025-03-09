@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Comment from './Comment';
-import CommentForm from './CommentForm';
+import Comment from './Comment'; // Assuming Comment component exists
+import CommentForm from './CommentForm'; // Assuming CommentForm component exists
 
 interface CommentType {
   id: string;
@@ -32,9 +32,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <h2>Comments</h2>
       <div className="comments">
         {comments.length > 0 ? (
-          comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
-          ))
+          comments.map((comment) => <Comment key={comment.id} comment={comment} />)
         ) : (
           <p>No comments yet. Be the first to comment!</p>
         )}
