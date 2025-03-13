@@ -26,6 +26,9 @@ import { eq } from "drizzle-orm";
 
 dotenv.config();
 
+//import user meta
+const UserMetadata = require("supertokens-node/recipe/usermetadata");
+
 // Initialize SuperTokens
 supertokens.init({
     framework: "express",
