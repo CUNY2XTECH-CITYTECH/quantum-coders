@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { SuperTokensWrapper } from "supertokens-auth-react";
 import App from "./App";
-import "./config/supertokensConfig"; // Ensure SuperTokens is initialized
+import "./config/supertokensConfig"; 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <SuperTokensWrapper>
-      <App /> {/* Now using RouterProvider inside App */}
+      <App /> 
     </SuperTokensWrapper>
   </React.StrictMode>
 );
