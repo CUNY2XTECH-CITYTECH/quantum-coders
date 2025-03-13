@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 const Profile: React.FC = () => {
   const user = {
@@ -19,3 +19,19 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+*/
+//import {useState} from "react";
+import ProfileCard from "./ProfileCard";
+import UserPosts from "./UserPosts";
+import "./profile.css";
+export default function Profile() {
+  //const [userId, setUserId] = useState<string | null>(null);
+  return (
+    <>
+    <div className="profile-container">
+      <ProfileCard />
+      <UserPosts />
+    </div>
+    </>
+  );
+}

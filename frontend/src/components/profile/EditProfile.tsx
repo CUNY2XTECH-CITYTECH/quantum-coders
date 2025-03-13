@@ -1,6 +1,7 @@
-//Mohammed
+//Mohammed task
+//Yuzhen code:
 
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 // Uncomment one of the following import options:
 import AWS from 'aws-sdk'; // Import entire SDK (optional)
 // import AWS from 'aws-sdk/global'; // Import global AWS namespace (recommended)
@@ -76,4 +77,4 @@ function AppEditingProfile() {
   );
 }
 
-export default AppEditingProfile;
+export default AppEditingProfile;*/

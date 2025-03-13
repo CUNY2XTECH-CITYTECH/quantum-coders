@@ -28,7 +28,7 @@ export const requestOptions = {
 const FormLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+  //const [userId, setUserId] = useState<string | null>(null);
   const [msgCreateAcc, setMsgCreateAcc] = useState("");
 
   useEffect(() => {
