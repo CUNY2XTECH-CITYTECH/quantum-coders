@@ -21,13 +21,11 @@ import * as schema from "./src/drizzle/schema.js";
 import SuperTokens from "supertokens-node";
 import UserMetadata from "supertokens-node/recipe/usermetadata";
 
+
 //import drizzle orm
 import { eq } from "drizzle-orm";
 
 dotenv.config();
-
-//import user meta
-const UserMetadata = require("supertokens-node/recipe/usermetadata");
 
 // Initialize SuperTokens
 supertokens.init({
@@ -64,7 +62,10 @@ app.get("/", (req, res) => {
     res.send("🚀 Server is running!");
 });
 
-//create the root route
+//using user Metadata
+await UserMetadata.updateUserMetadata(userId, { username });
+
+//create the root route ------------------------------------------------------------------
 //including the post page
 /*
 app.get("/get-user-info", verifySession(), async (req, res) => {
