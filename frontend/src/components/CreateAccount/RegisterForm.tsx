@@ -46,6 +46,7 @@ export const RegisterForm = () => {
     password: "",
     confirmPassword: "",
   });
+  //const [userId, setUserId] = useState<string | null>(null);
 
   const [errors, setErrors] = useState({ email: "", password: "", confirmPassword: "" });
   const [successMsg, setSuccessMsg] = useState("");
@@ -119,7 +120,7 @@ export const RegisterForm = () => {
   return (
     <>
       <div className="homepage">
-        <Header />
+        <Header/>{/*userId={userId}*/}
       </div>
       <div>
         <div className="form-container-Signup">

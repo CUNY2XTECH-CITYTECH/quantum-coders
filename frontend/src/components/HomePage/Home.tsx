@@ -116,6 +116,12 @@ const Home: React.FC = () => {
                 <button onClick={handleLogout} className="logout-button">
                     Logout
                 </button>
+
+                {<div>
+                    <button onClick={() => navigate("/services")}> Services </button>
+                    <button onClick={() => navigate("/aboutUs")}> About Us </button>
+                    <button onClick={() => navigate("/post")}> Post </button>
+                </div>}
             </main>
         </div>
     );
