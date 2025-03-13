@@ -1,7 +1,8 @@
-import React from "react";
+import React /*, {useState}*/ from "react";
 import Header from "./HomePage/header";
 
 const About: React.FC = () => {
+  //const [userId, setUserId] = useState<string | null>(null);
     const mystyle = {
         color: "white",
         backgroundColor: "DodgerBlue",
@@ -13,9 +14,10 @@ const About: React.FC = () => {
       };
   return (
     <div style={mystyle}>
-      <Header/>
+      <Header />{/*userId={userId}*/}
       <h1>About Us</h1>
-      <p>Welcome to the About page!</p>
+      <p>This is our project!, Quantum Coder, a simple social media website. We are CUNY CityTech students</p>
+      
     </div>
   );
 };
