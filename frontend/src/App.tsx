@@ -1,13 +1,15 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import PostFeed from './pages/postsfeed'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <><>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -28,8 +30,17 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+    </><Router>
+        <Routes>
+          <Route path="/" element={<PostFeed />} />
+          <Route path="/post/:id" element={<PostPage />} />
+        </Routes>
+      </Router></>
   )
+
+  
 }
+
+
 
 export default App
