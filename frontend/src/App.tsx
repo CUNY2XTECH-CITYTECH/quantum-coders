@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Post from './components/PostPage/Post'
 import PostFeed from './pages/postsfeed'
 
 function App() {
@@ -23,19 +24,14 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </><Router>
-        <Routes>
-          <Route path="/" element={<PostFeed />} />
-          <Route path="/post/:id" element={<PostPage />} />
-        </Routes>
-      </Router></>
+    </><Routes>
+      <Route path="/" element={<PostFeed />} />
+      <Route path="/post/:id" element={<Post />} /> {/* Ensure this route exists */}
+    </Routes></>
   )
 
   
