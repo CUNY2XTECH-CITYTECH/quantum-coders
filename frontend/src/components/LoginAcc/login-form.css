@@ -9,13 +9,13 @@ body {
   padding: 20px;
   text-align: center;
   color: #fff;
-  background-color: #2b4ab9;
+  background: linear-gradient(#1f066f, #0B60B0);
   border-radius: 10%;
   align-items: center;
   margin: 35%;
   margin-top: 100px;
   margin-bottom: 100px;
-  width: 75%;
+  width: 100%;
 }
 
 .form-group-login {
@@ -51,22 +51,75 @@ body {
 .input-icon-login svg {
   font-size: 30px;
   color: #edf4ff;
-  padding:5px
+  padding: 5px;
 }
 
 .btn-submit-login {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
+  align-items: center;
+  appearance: button;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  box-sizing: border-box;
   cursor: pointer;
-  width: 100%;
+  display: inline-block;
+  font-family: din-round, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  line-height: 20px;
+  margin: 10;
+  outline: none;
+  overflow: visible;
+  padding: 13px 16px;
   text-align: center;
-  border-radius: 10px;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transform: translateZ(0);
+  transition: filter .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #03828e;
+  color: #FFFFFF;
+  width: 55%;
+  padding-bottom: 20px;
+  margin: 0 auto; /* Center the button horizontally */
 }
 
-.btn-submit:hover-login {
-  background-color: #45a049;
+.btn-submit-login:after {
+  background-clip: padding-box;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  background-color: #0bbeb9;
+}
+
+.btn-submit-login:hover:not(:disabled) {
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+
+.btn-submit-login,
+.btn-submit-login:focus {
+  user-select: auto;
+}
+
+.btn-submit-login:disabled {
+  cursor: auto;
+}
+
+.btn-submit-login:active {
+  border-width: 4px 0 0;
+  background: none;
 }
 
 .btn-link-login {
@@ -81,6 +134,7 @@ body {
 .form-reset-login {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center the form elements */
 }
 
 .form-group-login span {
@@ -89,9 +143,9 @@ body {
   margin-right: 10px;
 }
 
-.success-message{
+.success-message {
   text-align: center;
-  color:#ccc;
+  color: #ccc;
   font-size: 20px;
   padding: 5px;
 }
