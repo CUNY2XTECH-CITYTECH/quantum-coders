@@ -8,24 +8,22 @@ import EmailPassword from "supertokens-node/recipe/emailpassword";
 import { middleware, errorHandler } from "supertokens-node/framework/express";
 import dotenv from "dotenv";
 
-import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-//import { SessionRequest } from 'supertokens-node/framework/express';
-//import supertokens from 'supertokens-node';
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
 
 // Import Drizzle ORM connection and schema
 import { db } from "./src/drizzle/db.js"; // ensure your db file is correctly referenced
 import * as schema from "./src/drizzle/schema.js";
 
-
-//Import Supermeta
-import SuperTokens from "supertokens-node";
+// Import user metadata
 import UserMetadata from "supertokens-node/recipe/usermetadata";
 
-
-//import drizzle orm
-import { eq } from "drizzle-orm";
-
 dotenv.config();
+
+
+// Check for API key
+if (!process.env.SUPERTOKENS_API_KEY) {
+    console.warn("⚠️ Warning: SUPER TOKENS API KEY is missing. Make sure to set it in your .env file!");
+}
 
 // Initialize SuperTokens
 supertokens.init({
@@ -42,147 +40,101 @@ supertokens.init({
         websiteBasePath: "/auth",
     },
     recipeList: [
-        EmailPassword.init(),
+        EmailPassword.init({
+            signUpFeature: {
+                formFields: [
+                    { id: "email", label: "Email", placeholder: "Enter your email" },
+                    { id: "password", label: "Password", placeholder: "Enter your password" },
+                    { id: "username", label: "Username", placeholder: "Enter your username" },
+                    { id: "fullName", label: "Full Name", placeholder: "Enter your full name" },
+                ],
+            },
+            override: {
+                apis: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        signUpPOST: async function (input) {
+                            if (originalImplementation.signUpPOST === undefined) {
+                                throw Error("Should never come here");
+                            }
+        
+                            // First, call the original implementation of signUpPOST
+                            let response = await originalImplementation.signUpPOST(input);
+        
+                            if (response.status === "OK") {
+                                let { id, email } = response.user;
+                                let formFields = input.formFields || [];
+        
+                                console.log("🔍 Received formFields:", formFields);
+                                console.log("🆔 User ID:", id);
+                                console.log("📧 User Email:", email);
+        
+                                // Extract additional user metadata
+                                let usernameField = formFields.find(field => field.id === "username");
+                                let fullNameField = formFields.find(field => field.id === "fullName");
+                                let passwordField = formFields.find(field => field.id === "password");
+        
+                                let username = usernameField ? usernameField.value : null;
+                                let fullName = fullNameField ? fullNameField.value : null;
+                                let password = passwordField ? passwordField.value : null; 
+        
+                                console.log("👤 Username:", username);
+                                console.log("📝 Full Name:", fullName);
+                                console.log("🔑 Password (hashed by SuperTokens):", password);
+        
+                                // ✅ Store additional user metadata
+                                await UserMetadata.updateUserMetadata(id, { username, fullName, email });
+        
+                                console.log("✅ Metadata stored successfully:", { id, email, username, fullName });
+                            }
+        
+                            return response;
+                        },
+                    };
+                },
+            },
+        }),        
         ThirdParty.init(),
         Session.init(),
-        //add UserMetaData
         UserMetadata.init(),
     ],
 });
 
 const app = express();
+app.use(express.json()); // ✅ Parses incoming JSON requests
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(bodyParser.json());
 app.use(middleware()); // SuperTokens middleware
-//app.use("/user", userRoutes);
+
 
 // Health check endpoint
-//BASIC Route
 app.get("/", (req, res) => {
     res.send("🚀 Server is running!");
 });
 
-//using user Metadata
-await UserMetadata.updateUserMetadata(userId, { username });
-
-//create the root route ------------------------------------------------------------------
-//including the post page
-/*
-app.get("/get-user-info", verifySession(), async (req, res) => {
-    let userId = req.session.getUserId();
-    
-    let userInfo = await supertokens.getUser(userId)
-    res.json(userInfo);
-})*/
-/*
+// Fetch user info
 app.get("/user/userinfo", verifySession(), async (req, res) => {
     try {
         const userId = req.session.getUserId();
         const { metadata } = await UserMetadata.getUserMetadata(userId);
 
+        console.log("✅ User Metadata Retrieved:", metadata); // Debugging log
+
         res.json({
-            userId,
-            username: metadata.userName || "Guest",
+            userId: userId,
+            fullName: metadata.fullName || "Unknown User",
+            username: metadata.username || "unknown",
+            email: metadata.email || "No email found",  // ✅ Now fetching email
         });
+
     } catch (error) {
         console.error("🚨 Error retrieving user metadata:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
-*/
-
-//----------------------------------------------------
-app.post("/updateinfo", verifySession(), async (req, res) => {
-    const session = req.session;
-    const userId = session.getUserId();
-
-    // Assume username is sent from frontend
-    const { username } = req.body;
-
-    if (!username) {
-        return res.status(400).json({ error: "Username is required" });
-    }
-
-    // Store username in metadata
-    await UserMetadata.updateUserMetadata(userId, { username });
-
-    res.json({ message: "User metadata updated successfully!" });
-});
-//----------------------------------------------------
-app.get("/user/userinfo", verifySession(), async (req, res) => {
-    
-    try {
-        const userId = req.session.getUserId();
-        const { metadata } = await UserMetadata.getUserMetadata(userId);
-
-        // If username exists in metadata, return it
-        const username = metadata.username || "Unknown User";
-
-        res.json({
-            userId,
-            username, // Now returns the real username instead of "Guest"
-        });
-    } catch (error) {
-        console.error("🚨 Error retrieving user metadata:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-    //BELOW CODE DOES NOT WORK
-   /*
-        try {
-            const userId = req.session.getUserId();
-            console.log("✅ Fetching user info for userId:", userId); // Debugging log
-    
-            // Fetch user metadata from SuperTokens
-            const { metadata } = await UserMetadata.getUserMetadata(userId);
-            console.log("✅ SuperTokens Metadata:", metadata); // Debugging log
-    
-            // Fetch user details from the database using Drizzle ORM
-            const users = await db.select().from(schema.users).where(eq(schema.users.id, userId));
-            console.log("✅ Users from DB:", users); // Debugging log
-    
-            if (users.length === 0) {
-                console.warn("⚠️ No user found in DB for userId:", userId);
-            }
-    
-            const dbUser = users.length > 0 ? users[0] : null;
-    
-            // Determine final username (database takes priority)
-            const username = dbUser?.username || metadata.username || "Unknown User";
-    
-            res.json({
-                userId,
-                username,
-                email: dbUser?.email || "No email found",
-                createdAt: dbUser?.created_at || "N/A",
-            });
-        } catch (error) {
-            console.error("🚨 Error retrieving user data:", error);
-            res.status(500).json({ error: "Internal Server Error" });
-        }
-        */
-});
 
 
-
-// New endpoint to fetch username by user ID
-app.get("/api/users/:userId", verifySession(), async (req, res) => {
-    const userId = req.params.userId;
-    console.log("Fetching user with ID:", userId); // Log the user ID
-    try {
-        const user = await db.select().from(schema.users).where(schema.users.id.eq(userId)).single();
-        console.log("User fetched from DB:", user); // Log the user fetched from DB
-        if (user) {
-            res.json({ username: user.username });
-        } else {
-            res.status(404).json({ error: "User not found" });
-        }
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ error: "Failed to fetch user" });
-    }
-});
-
-// Example route to fetch users from the database using Drizzle ORM
+// Fetch users from Drizzle ORM
 app.get("/users", async (req, res) => {
     try {
         const users = await db.select().from(schema.users);
@@ -197,6 +149,4 @@ app.get("/users", async (req, res) => {
 app.use(errorHandler());
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () =>
-    console.log(`🚀 Server running on http://localhost:${PORT}/auth`)
-);
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}/auth`));

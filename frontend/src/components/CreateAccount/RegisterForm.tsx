@@ -10,33 +10,16 @@ import SuperTokens from "supertokens-web-js";
 import Session from "supertokens-web-js/recipe/session";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 
-
 SuperTokens.init({
   appInfo: {
     apiDomain: "http://localhost:3001",
     apiBasePath: "/auth",
     appName: "Quantum-Coders",
   },
-  recipeList: [Session.init(), EmailPassword.init()],
+  recipeList: [Session.init(),
+  EmailPassword.init()],
 });
 
-/*
-import SuperTokens from 'supertokens-web-js';
-import Session from 'supertokens-web-js/recipe/session';
-import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
-SuperTokens.init({
-  appInfo: {
-    apiDomain: "http://localhost:3001",
-    apiBasePath: "/auth",
-    appName: "Quantum-Coders",
-  },
-  recipeList: [
-    Session.init(),
-    EmailPassword.init(), // Email/password authentication
-    EmailPassword.init(),
-  ],
-});
-*/
 export const RegisterForm = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -46,7 +29,6 @@ export const RegisterForm = () => {
     password: "",
     confirmPassword: "",
   });
-  //const [userId, setUserId] = useState<string | null>(null);
 
   const [errors, setErrors] = useState({ email: "", password: "", confirmPassword: "" });
   const [successMsg, setSuccessMsg] = useState("");
@@ -72,55 +54,64 @@ export const RegisterForm = () => {
     const newErrors = { email: "", password: "", confirmPassword: "" };
 
     if (!validateEmail(form.email)) {
-        newErrors.email = "Invalid email format";
-        isValid = false;
+      newErrors.email = "Invalid email format";
+      isValid = false;
     }
 
     if (!validatePassword(form.password)) {
-        newErrors.password =
-            "Password must be at least 6 characters, contain an uppercase letter, 1 number, and a special character";
-        isValid = false;
+      newErrors.password =
+        "Password must be at least 6 characters, contain an uppercase letter, 1 number, and a special character";
+      isValid = false;
     }
 
     if (form.password !== form.confirmPassword) {
-        newErrors.confirmPassword = "Passwords do not match";
-        isValid = false;
+      newErrors.confirmPassword = "Passwords do not match";
+      isValid = false;
     }
 
     setErrors(newErrors);
     if (!isValid) return;
 
     try {
-        const response = await EmailPassword.signUp({
-            formFields: [
-                { id: "email", value: form.email },
-                { id: "password", value: form.password }
-            ]
-        });
-        console.log(response);
-        if (response.status === "OK") {
-          setSuccessMsg("Sign-Up Successful! Redirecting...");
-          setTimeout(() => navigate("/login", { state: { signupSuccess: true } }), 3000);
+      console.log("📤 Sending signUp request:", {
+        formFields: [
+            { id: "email", value: form.email },
+            { id: "password", value: form.password },
+            { id: "username", value: form.username },
+            { id: "fullName", value: form.fullName }
+        ]
+    });
+
+    const response = await EmailPassword.signUp({
+        formFields: [
+            { id: "email", value: form.email },
+            { id: "password", value: form.password },
+            { id: "username", value: form.username },
+            { id: "fullName", value: form.fullName }
+        ],
+    });  
+
+      console.log("🔹 Sign-Up Response:", response);
+      if (response.status === "OK") {
+        setSuccessMsg("Sign-Up Successful! Redirecting...");
+        setTimeout(() => navigate("/login", { state: { signupSuccess: true } }), 3000);
+      } else if (response.status === "FIELD_ERROR") {
+        setErrorMsg(
+          response.formFields.map((field) => field.error).join(", ") || "Sign-Up failed. Try again."
+        );
       } else {
-          if (response.status === "FIELD_ERROR") {
-            setErrorMsg(response.formFields.map(field => field.error).join(", ") || "Sign-Up failed. Try again.");
-          } else if (response.status === "SIGN_UP_NOT_ALLOWED") {
-            setErrorMsg(response.reason || "Sign-Up not allowed. Try again.");
-          } else {
-            setErrorMsg("Sign-Up failed. Try again.");
-          }
+        setErrorMsg("Sign-Up failed. Try again.");
       }
     } catch (error) {
-        console.error("Sign-Up Error:", error);
-        setErrorMsg("An error occurred. Please try again.");
+      console.error("🚨 Sign-Up Error:", error);
+      setErrorMsg("An error occurred. Please try again.");
     }
-};
-
+  };
 
   return (
     <>
       <div className="homepage">
-        <Header/>{/*userId={userId}*/}
+        <Header />{/*userId={userId}*/}
       </div>
       <div>
         <div className="form-container-Signup">
