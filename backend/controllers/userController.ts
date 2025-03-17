@@ -1,55 +1,37 @@
-import { Request, Response } from 'express';
-import { db } from '../src/drizzle/db';
-import { usersTable } from '../models/User';
-import { eq } from 'drizzle-orm';
-import AWS from 'aws-sdk';
-import multer from 'multer';
-import multerS3 from 'multer-s3';
-import dotenv from 'dotenv';
+import { Response } from "express";
+import { getUserById, updateUser } from "../models/User";
+import { SessionRequest } from "supertokens-node/framework/express"; // Import the correct type for session
 
-dotenv.config();
-
-// Configure AWS SDK
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  region: process.env.AWS_REGION!,
-});
-
-// Multer middleware to handle file uploads
-export const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.AWS_BUCKET_NAME!,
-    acl: 'public-read', // Allows public access
-    metadata: (req, file, cb) => {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: (req, file, cb) => {
-      cb(null, `profiles/${Date.now()}_${file.originalname}`);
-    }
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-});
-
-// ✅ Upload Profile Image & Update DB
-export const uploadProfileImage = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const file = req.file as Express.MulterS3.File;
-
-  if (!file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
-  const imageUrl = file.location; // S3 URL
-
+export const handleGetUserProfile = async (req: SessionRequest, res: Response) => {
   try {
-    await db.update(usersTable)
-      .set({ profileImageUrl: imageUrl })
-      .where(eq(usersTable.id, Number(id)));
+    const userId = req.session!.getUserId();
+    const user = await getUserById(parseInt(userId, 10)); // Ensure userId is parsed to an integer
 
-    res.json({ message: 'Profile image uploaded successfully', imageUrl });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.json({ email: user.email, name: user.name, username: user.username });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to upload profile image' });
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const handleUpdateUserProfile = async (req: SessionRequest, res: Response) => {
+  try {
+    const userId = req.session!.getUserId();
+    const { name, username } = req.body;
+
+    if (!name && !username) {
+      return res.status(400).json({ error: "At least one field is required to update" });
+    }
+
+    const updatedUser = await updateUser(parseInt(userId, 10), name, username); // Ensure userId is parsed to an integer
+
+    return res.json({ message: "Profile updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ error: "Failed to update profile" });
   }
 };

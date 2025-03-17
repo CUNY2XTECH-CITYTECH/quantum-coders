@@ -1,9 +1,19 @@
-import { integer, pgTable, varchar } from 'drizzle-orm/pg-core';
+// models/User.ts
+import { db } from "../src/drizzle/db";
+import { user } from "../src/drizzle/schemaUser";
+import { eq } from "drizzle-orm";
 
-export const usersTable = pgTable('users', {
-  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar('name', { length: 255 }).notNull(),
-  age: integer('age').notNull(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  profileImageUrl: varchar('profileImageUrl', { length: 500 }) // Store Image URL
-});
+export const getUserById = async (id: number) => { 
+  // Change id type to number
+  const result = await db.select().from(user).where(eq(user.id, id));
+  return result[0] || null;
+};
+
+export const updateUser = async (id: number, name?: string, username?: string) => { 
+  // Change id type to number
+  return db
+    .update(user)
+    .set({ name, username })
+    .where(eq(user.id, id))
+    .returning();
+};
