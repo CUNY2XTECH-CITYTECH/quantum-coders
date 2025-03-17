@@ -1,0 +1,79 @@
+
+app.get("/user/userinfo", verifySession(), async (req, res) => {
+    try {
+        const userId = req.session.getUserId();
+        const { metadata } = await UserMetadata.getUserMetadata(userId);
+
+        res.json({
+            userId,
+            username: metadata.userName || "Guest",
+        });
+    } catch (error) {
+        console.error("🚨 Error retrieving user metadata:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+//----------------------------------------------------
+//Tigris
+/*
+app.get("/api/files", Session.verifySession(), async (req, res) => {
+    const files = await getFilesFromStorage(); // Replace with Fly.io + Tigris integration
+    res.json(files);
+});
+
+app.post("/api/upload_files", Session.verifySession(), async (req, res) => {
+    const { name, data } = req.body;
+    await uploadFileToStorage(name, data); // Replace with Fly.io storage
+    res.json({ success: true });
+});
+
+app.post("/api/delete_file", Session.verifySession(), async (req, res) => {
+    const { name } = req.body;
+    await deleteFileFromStorage(name); // Replace with Fly.io storage
+    res.json({ success: true });
+});
+*/
+//----------------------------------------------------
+
+//----------------------------------------------------
+/*
+app.post("/updateinfo", verifySession(), async (req, res) => {
+    const session = req.session;
+    const userId = session.getUserId();
+
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: "Username is required" });
+    }
+
+    // Store username in metadata
+    await UserMetadata.updateUserMetadata(userId, { username });
+
+    res.json({ message: "User metadata updated successfully!" });
+});
+*/
+//----------------------------------------------------
+
+
+
+/*
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/metadata", metadataRoutes); // Metadata Routes
+*/
+
+//----------------------------------------------------------------------
+//app.use("/user", userRoutes);
+
+//create the root route ------------------------------------------------------------------
+//including the post page
+/*
+app.get("/get-user-info", verifySession(), async (req, res) => {
+    let userId = req.session.getUserId();
+
+    let userInfo = await supertokens.getUser(userId)
+    res.json(userInfo);
+})
+*/
