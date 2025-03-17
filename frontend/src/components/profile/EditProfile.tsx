@@ -9,7 +9,7 @@ interface EditingProfile {
 }
 
 interface UserData {
-  name: string;
+  fullName: string;
   username: string;
   description: string;
 }
@@ -22,8 +22,9 @@ interface FileData {
 }
 */
 
-export default function EditingProfile({ setIsEditing, userData, setUserData }: { setIsEditing: (status: boolean) => void; userData: UserData; setUserData: (data: UserData) => void; }) {
-  const [name, setName] = useState(userData.name || "John Doe");
+export default function EditingProfile({ userData, /*setUserData,setIsEditing */ }: 
+  { setIsEditing: (status: boolean) => void; userData: UserData; setUserData: (data: UserData) => void; }) {
+  const [fullName, setfullName] = useState(userData.fullName || "John Doe");
   const [username, setUsername] = useState(userData.username || "johndoe");
   const [description, setDescription] = useState(userData.description || "Hello World");
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ export default function EditingProfile({ setIsEditing, userData, setUserData }: 
         <button type="submit">Upload your pfp</button>
       </form>
       */}
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+      <input type="text" value={fullName} onChange={(e) => setfullName(e.target.value)} placeholder="Name" />
       <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
       <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
       <button className="save-button" onClick={handleSave}>Save</button>

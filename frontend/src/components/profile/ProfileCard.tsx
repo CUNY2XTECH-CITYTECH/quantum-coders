@@ -1,7 +1,7 @@
 import dogImage from "./test/image_dog.png";
 import { FaPenSquare } from "react-icons/fa";
 interface UserData {
-  name?: string;
+  fullName?: string;
   username?: string;
   description?: string;
 }
@@ -19,9 +19,9 @@ export default function ProfileCard({ setIsEditing, userData }: ProfileCardProps
       </button>
       <div className="profile-content">
         <img src={dogImage} alt="Profile" />
-        <h2>{userData.name || "John Doe"}</h2>
-        <p>@{userData.username || "johndoe"}</p>
-        <p>{userData.description || "Hello World"}</p>
+        <h2>{userData.fullName || "Unknow"}</h2>
+        <p>@{userData.username || "MisteryPerson"}</p>
+        <p>{userData.description || "Hello World and beutiful person who read me"}</p>
       </div>
     </div>
   );
