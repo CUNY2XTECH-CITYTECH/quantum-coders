@@ -133,6 +133,15 @@ app.get("/user/userinfo", verifySession(), async (req, res) => {
     }
 });
 
+//update user information
+app.post("/user/updateUser", verifySession(), async (req, res) => {
+    const session = req.session;
+    const userId = session.getUserId();
+  
+    await UserMetadata.updateUserMetadata(userId, { newKey: "data" });
+  
+    res.json({ message: "successfully updated user metadata" });
+  });
 
 // Fetch users from Drizzle ORM
 app.get("/users", async (req, res) => {
