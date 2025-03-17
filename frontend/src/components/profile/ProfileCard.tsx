@@ -1,23 +1,27 @@
-//wei part
-//yuzhen code
+import dogImage from "./test/image_dog.png";
+import { FaPenSquare } from "react-icons/fa";
+interface UserData {
+  name?: string;
+  username?: string;
+  description?: string;
+}
 
-import { useState } from "react";
-import dogImage from "./test/image_dog.png"; // Import the local image
-import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+interface ProfileCardProps {
+  setIsEditing: (isEditing: boolean) => void;
+  userData: UserData;
+}
 
-export default function ProfileCard() {
-  const [name, setName] = useState("John Doe");
-  const [username, setUsername] = useState("johndoe");
-  const [description, setDescription] = useState("Hello World");
-
+export default function ProfileCard({ setIsEditing, userData }: ProfileCardProps) {
   return (
     <div className="profile-card">
+      <button className="edit-button" onClick={() => setIsEditing(true)}>
+      <FaPenSquare />
+      </button>
       <div className="profile-content">
-      <img className="profile-image" src={dogImage} alt="Profile" />
-        <h2>{name}</h2>
-        <p>@{username}</p>
-        <button className="edit-button">Edit</button>
-        <p>{description}</p>
+        <img src={dogImage} alt="Profile" />
+        <h2>{userData.name || "John Doe"}</h2>
+        <p>@{userData.username || "johndoe"}</p>
+        <p>{userData.description || "Hello World"}</p>
       </div>
     </div>
   );
