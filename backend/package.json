@@ -22,11 +22,11 @@
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
     "supertokens-auth-react": "^0.48.0",
-    "supertokens-node": "^21.1.0",
-    "tsx": "^4.8.0"
+    "supertokens-node": "^21.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "tsx": "^4.19.3"
   }
 }
