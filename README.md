@@ -21,15 +21,22 @@ Run the backend first
 go to the backend folder
 ```
 cd backend
-npm run start (or just npm run and select what command you prefered)
+npm run start 
 ```
-
+(or just npm run and select what command you prefered)
+```
+npm run
+```
 **Step 2**
 Run the frontend (Vite + React)
 go to the frontend folder
 ```
 cd frontend 
-npm run dev (or just npm run and select what command you prefered)
+npm run dev 
+```
+(or just npm run and select what command you prefered)
+```
+npm run
 ```
 
 **Step 3**
