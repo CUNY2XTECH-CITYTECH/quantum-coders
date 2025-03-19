@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./HomePage/header"; 
-const Contact: React.FC = () => {
+const PostPage: React.FC = () => {
     const mystyle = {
         color: "white",
         backgroundColor: "DodgerBlue",
@@ -13,10 +13,13 @@ const Contact: React.FC = () => {
     return (
         <div style={mystyle}>       
             <Header/>
-            <h1>Contact Us</h1>
-            <p>Feel free to reach out to us through this page.</p>
+            <h1>Our user post section!</h1>
+            <p> </p>
+            <div>
+                <p> SOMETHING </p>
+            </div>
         </div>
     );
 };
 
-export default Contact;
+export default PostPage;
