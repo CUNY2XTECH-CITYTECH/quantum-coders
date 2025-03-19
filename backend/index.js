@@ -107,12 +107,12 @@ app.use(bodyParser.json());
 app.use(middleware()); // SuperTokens middleware
 
 
-// Health check endpoint
+// Health check endpoint end-point [Rudgino's code]
 app.get("/", (req, res) => {
     res.send("🚀 Server is running!");
 });
 
-// Fetch user info
+// Fetch user info [Yuzhen's code]
 app.get("/user/userinfo", verifySession(), async (req, res) => {
     try {
         const userId = req.session.getUserId();
@@ -133,7 +133,7 @@ app.get("/user/userinfo", verifySession(), async (req, res) => {
     }
 });
 
-//update user information
+//update user information end-point [Yuzhen's code]
 app.post("/user/updateUser", verifySession(), async (req, res) => {
     const session = req.session;
     const userId = session.getUserId();
@@ -143,7 +143,63 @@ app.post("/user/updateUser", verifySession(), async (req, res) => {
     res.json({ message: "successfully updated user metadata" });
   });
 
-// Fetch users from Drizzle ORM
+//log in user end-point[Asmar's code]
+app.post("/auth/signup", async (req, res) => {
+    try {
+        let { email, password } = req.body;
+
+        let response = await EmailPassword.signUp(email, password);
+
+        if (response.status === "OK") {
+            return res.json({
+                status: "success",
+                message: "Account created successfully!",
+                user: response.user
+            });
+        } else if (response.status === "EMAIL_ALREADY_EXISTS_ERROR") {
+            return res.status(400).json({
+                status: "error",
+                message: "Email is already registered. Try logging in."
+            });
+        }
+    } catch (error) {
+        console.error("Sign-Up Error:", error);
+        return res.status(500).json({
+            status: "error",
+            message: "An unexpected error occurred. Please try again later."
+        });
+    }
+});
+
+/*
+// Editing profile end-point [Yuzhen's code]
+app.post("/api/edit_profile", Session.verifySession(), async (req, res) => {
+    const userId = req.session.getUserId();
+    const { fullName, username } = req.body;
+
+    await UserMetadata.updateUserMetadata(userId, { fullName, username });
+
+    res.json({ success: true });
+});
+app.get("/api/files", Session.verifySession(), async (req, res) => {
+    const files = await getFilesFromStorage(); // Replace with Fly.io + Tigris integration
+    res.json(files);
+});
+
+app.post("/api/upload_files", Session.verifySession(), async (req, res) => {
+    const { name, data } = req.body;
+    await uploadFileToStorage(name, data); // Replace with Fly.io storage
+    res.json({ success: true });
+});
+
+app.post("/api/delete_file", Session.verifySession(), async (req, res) => {
+    const { name } = req.body;
+    await deleteFileFromStorage(name); // Replace with Fly.io storage
+    res.json({ success: true });
+});
+*/
+
+// Fetch users from Drizzle ORM [Rudgino's code]
 app.get("/users", async (req, res) => {
     try {
         const users = await db.select().from(schema.users);
