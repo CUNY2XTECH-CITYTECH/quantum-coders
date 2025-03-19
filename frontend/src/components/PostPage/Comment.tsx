@@ -11,8 +11,7 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ comment }) => {
   return (
     <div className="comment">
-      <p>{comment.text}</p>
-      <small>{comment.author}</small>
+      <p><strong>{comment.author}</strong>: {comment.text}</p>
     </div>
   );
 };
