@@ -24,6 +24,12 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgres://postgres:quantum123@postgres:5432/quantum_coders
+      #here add the AWS feactures
+      AWS_ACCESS_KEY_ID: your-key
+      AWS_SECRET_ACCESS_KEY: your-secret
+      BUCKET_NAME: quantum-coder
+      AWS_ENDPOINT_URL_S3: https://fly.storage.tigris.dev
+
     networks:
       - shared_network
 

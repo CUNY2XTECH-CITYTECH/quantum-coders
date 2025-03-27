@@ -1,5 +1,15 @@
 import { pgTable, uuid, text, timestamp, boolean, pgEnum } from "drizzle-orm/pg-core";
 
+//display the image pfp
+export const images = pgTable('images', {
+    id: text('id').primaryKey(),
+    filename: text('filename').notNull(),
+    mime_type: text('mime_type'),
+    uploaded_at: timestamp('uploaded_at').defaultNow(),
+    user_id: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }) // Optional
+  });
+  
+
 // Define Enum for User Roles
 export const userRoleEnum = pgEnum("user_role", ["user", "admin", "moderator"]);
 
