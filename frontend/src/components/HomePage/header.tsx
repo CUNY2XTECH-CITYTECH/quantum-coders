@@ -1,35 +1,35 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { useSessionContext, signOut } from "supertokens-auth-react/recipe/session";
 import "./home.css";
-import { signOut } from "supertokens-auth-react/recipe/session";
 
 const Header = () => {
     const navigate = useNavigate();
-    const session = useSessionContext(); // ✅ Get session context
+    const session = useSessionContext(); // ✅ Get SuperTokens session context
 
-    //declare to logOut
-    const [userId, setUserId] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null);
-
-    if (session.loading) {
-        return null; // ✅ Prevents errors while session is loading
-    }
-
-    // Logout function
+    // ✅ Logout function
     const handleLogout = async () => {
-        await signOut();
-        setUsername(null); // Clear username on logout
-        setUserId(null);   // Clear userId
-        navigate("/login"); // Redirect to login page
+        try {
+            await signOut();  // Clear SuperTokens session
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            navigate("/login"); // ✅ Redirect to login
+        }
     };
+
+    // ✅ Don't render until session is loaded
+    if (session.loading) {
+        return null;
+    }
 
     return (
         <header className="header">
             <div className="left-buttons">
                 <button onClick={() => navigate("/")} className="header-button">Home</button>
             </div>
+
             <h1 className="title">Quantum Coders</h1>
+
             <div className="right-buttons">
                 {!session.doesSessionExist ? (
                     <>
