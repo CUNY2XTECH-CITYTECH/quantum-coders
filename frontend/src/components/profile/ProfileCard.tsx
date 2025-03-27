@@ -4,7 +4,9 @@ interface UserData {
   fullName?: string;
   username?: string;
   description?: string;
+  profileImage?: string; // Uploap the pfp
 }
+
 
 interface ProfileCardProps {
   setIsEditing: (isEditing: boolean) => void;
@@ -18,7 +20,7 @@ export default function ProfileCard({ setIsEditing, userData }: ProfileCardProps
       <FaPenSquare />
       </button>
       <div className="profile-content">
-        <img src={dogImage} alt="Profile" />
+        <img src={userData.profileImage || dogImage} alt="Profile" />
         <h2>{userData.fullName || "Unknow"}</h2>
         <p>@{userData.username || "MisteryPerson"}</p>
         <p>{userData.description || "Hello World and beutiful person who read me"}</p>

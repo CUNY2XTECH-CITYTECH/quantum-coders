@@ -9,7 +9,7 @@ export default function ProfilePage() {
   return (
     <>
     <div>
-        <Header/>{/*userId={userId}*/}
+        <Header/>
     </div>
     <div className="profile-page">
       <Profile />
