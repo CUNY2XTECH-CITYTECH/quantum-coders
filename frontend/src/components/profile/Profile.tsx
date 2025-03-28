@@ -7,7 +7,7 @@ interface UserData {
   fullName: string;
   username: string;
   description: string;
-  profileImage?: string; // ✅ Tigris Image URL
+  profileImage?: string;
 }
 
 export default function Profile() {
@@ -15,65 +15,43 @@ export default function Profile() {
     fullName: "",
     username: "",
     description: "",
-    profileImage: ""
+    profileImage: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ Fetch user metadata (name, username, description)
-  const fetchUserInfo = async () => {
+  // ✅ Unified fetch from /api/user_profile
+  const fetchUserProfile = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3001/user/userinfo", {
-        method: "GET",
+      const res = await fetch("http://localhost:3001/api/user_profile", {
         credentials: "include",
       });
 
-      if (!res.ok) throw new Error("Failed to fetch user data");
+      if (!res.ok) throw new Error("Failed to fetch user profile");
 
       const data = await res.json();
-      console.log("✅ User Data Retrieved:", data);
+      console.log("✅ User Profile:", data);
 
-      setUserData(prev => ({
-        ...prev,
-        fullName: data.fullName ?? prev.fullName,
-        username: data.username ?? prev.username,
-        description: data.description ?? prev.description,
-      }));
-      
+      setUserData({
+        fullName: data.fullName || "",
+        username: data.username || "",
+        description: data.description || "",
+        profileImage: data.imageUrl || "",
+      });
 
-    } catch (error) {
-      console.error("🚨 Error fetching user info:", error);
+    } catch (err) {
+      console.error("🚨 Error fetching profile:", err);
       setError("Failed to load profile. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Fetch profile image from Tigris via backend /api/files
-  const fetchProfileImage = async () => {
-    try {
-      const res = await fetch("http://localhost:3001/api/files", { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch profile image");
-      const files = await res.json();
-      console.log("📂 Tigris Files:", files);
-      // Assuming first file is profile image
-      if (files.length > 0) {
-        setUserData(prev => ({
-          ...prev,
-          profileImage: files[0].Url,
-        }));
-      }
-    } catch (error) {
-      console.error("🚨 Error fetching profile image:", error);
-    }
-  };  
-
   useEffect(() => {
-    fetchUserInfo();
-    fetchProfileImage(); // ✅ Fetch image on mount
+    fetchUserProfile();
   }, []);
 
   if (loading) {
@@ -91,7 +69,7 @@ export default function Profile() {
           userData={userData}
           setUserData={setUserData}
           setIsEditing={setIsEditing}
-          fetchUserInfo={fetchUserInfo} // Optional: pass fetchUserInfo to re-fetch after edit
+          fetchUserInfo={fetchUserProfile} // reused!
         />
       ) : (
         <ProfileCard
