@@ -1,6 +1,4 @@
-//wei
 
-//Yuzhen Code
 import Profile from "../profile/Profile";
 import "../profile/profile.css";
 import Header from "../HomePage/header";

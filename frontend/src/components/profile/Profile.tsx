@@ -1,6 +1,5 @@
+import { useEffect, useState } from "react";
 import ProfileCard from "./ProfileCard";
-import UserPosts from "./UserPosts";
-import { useState, useEffect } from "react";
 import EditingProfile from "./EditProfile";
 
 interface UserData {
@@ -15,61 +14,40 @@ export default function Profile() {
     fullName: "",
     username: "",
     description: "",
-    profileImage: "",
+    profileImage: ""
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  // ✅ Unified fetch from /api/user_profile
-  const fetchUserProfile = async () => {
+  const fetchUserInfo = async () => {
     try {
-      setLoading(true);
-      const res = await fetch("http://localhost:3001/api/user_profile", {
+      const res = await fetch("/api/user_profile", {
         credentials: "include",
       });
-
-      if (!res.ok) throw new Error("Failed to fetch user profile");
-
       const data = await res.json();
-      console.log("✅ User Profile:", data);
-
       setUserData({
-        fullName: data.fullName || "",
-        username: data.username || "",
-        description: data.description || "",
-        profileImage: data.imageUrl || "",
+        fullName: data.fullName || "Unknown",
+        username: data.username || "unknown",
+        description: data.description || "", // 👈 description included
+        profileImage: data.imageUrl || "",   // 👈 profile image
       });
-
     } catch (err) {
-      console.error("🚨 Error fetching profile:", err);
-      setError("Failed to load profile. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching user info:", err);
     }
   };
 
   useEffect(() => {
-    fetchUserProfile();
+    fetchUserInfo();
   }, []);
 
-  if (loading) {
-    return <p className="loading-message">⏳ Loading profile...</p>;
-  }
-
-  if (error) {
-    return <p className="error-message">{error}</p>;
-  }
-
   return (
-    <div className="profile-container">
+    <>
       {isEditing ? (
         <EditingProfile
           userData={userData}
           setUserData={setUserData}
           setIsEditing={setIsEditing}
-          fetchUserInfo={fetchUserProfile} // reused!
+          fetchUserInfo={fetchUserInfo} // 🔁 refresh after saving
         />
       ) : (
         <ProfileCard
@@ -77,9 +55,6 @@ export default function Profile() {
           setIsEditing={setIsEditing}
         />
       )}
-
-      <h2>Your posts</h2>
-      <UserPosts />
-    </div>
+    </>
   );
 }
