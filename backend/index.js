@@ -280,6 +280,41 @@ app.post("/api/delete_file", verifySession(), async (req, res) => {
 });
 //---------------------------------------------------------------------
 
+//profile
+// ✅ Get user profile including profile image
+app.get("/api/user_profile", verifySession(), async (req, res) => {
+  try {
+    const userId = req.session.getUserId();
+    const { metadata } = await UserMetadata.getUserMetadata(userId);
+
+    // Construct the expected image key (e.g., "profiles/{userId}.png")
+    const imageKey = `profiles/${userId}.png`;
+
+    // Try to generate signed URL for the image
+    let imageUrl;
+    try {
+      imageUrl = await getSignedUrl(s3Client, new GetObjectCommand({
+        Bucket: process.env.BUCKET_NAME,
+        Key: imageKey
+      }), { expiresIn: 3600 });
+    } catch (err) {
+      console.warn(`⚠️ No profile image found for ${userId}:`, err.message);
+      imageUrl = null;
+    }
+
+    res.json({
+      userId,
+      fullName: metadata.fullName || "Unknown",
+      username: metadata.username || "unknown",
+      email: metadata.email || "No email",
+      imageUrl, // null if not found
+    });
+  } catch (error) {
+    console.error("🚨 Failed to fetch user profile:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 // Fetch users from Drizzle ORM [Rudgino's code]
 app.get("/users", async (req, res) => {
