@@ -1,5 +1,24 @@
 import { pgTable, uuid, text, timestamp, boolean, pgEnum } from "drizzle-orm/pg-core";
 
+
+export const profile = pgTable("profile", {
+  id: uuid("id").defaultRandom().primaryKey(),
+
+  user_id: uuid("user_id")
+    .notNull()
+    .unique() // 1:1 relationship with users
+    .references(() => users.id, { onDelete: "cascade" }),
+
+  full_name: text("full_name"),
+  username: text("username").notNull(),
+  description: text("description"),
+  profile_image_url: text("profile_image_url"),
+
+  created_at: timestamp("created_at").defaultNow(),
+  updated_at: timestamp("updated_at").defaultNow(),
+});
+
+
 //display the image pfp
 export const images = pgTable('images', {
     id: text('id').primaryKey(),
