@@ -30,7 +30,7 @@ function App() {
       </p>
     </><Routes>
       <Route path="/" element={<PostFeed />} />
-      <Route path="/post/:id" element={<Post />} /> {/* Ensure this route exists */}
+      <Route path="/post/:id" element={<Post />} />
     </Routes></>
   )
 
