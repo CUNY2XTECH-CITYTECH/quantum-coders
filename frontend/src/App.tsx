@@ -25,8 +25,8 @@ const router = createBrowserRouter([
     },
     {
         path: "/profile",
-        element: <SessionAuth><Profile /></SessionAuth>, // ✅ Protect this route
-    },
+        element: <SessionAuth requireAuth={true}><Profile /></SessionAuth>,
+    },      
     {
         path: "/services",
         element: <Services />,
