@@ -1,37 +1,78 @@
-import { Response } from "express";
-import { getUserById, updateUser } from "../models/User";
-import { SessionRequest } from "supertokens-node/framework/express"; // Import the correct type for session
 
-export const handleGetUserProfile = async (req: SessionRequest, res: Response) => {
-  try {
-    const userId = req.session!.getUserId();
-    const user = await getUserById(parseInt(userId, 10)); // Ensure userId is parsed to an integer
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    return res.json({ email: user.email, name: user.name, username: user.username });
-  } catch (error) {
-    console.error("Error fetching profile:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+/*import { Response } from "express";
+import { SessionRequest } from "supertokens-node/framework/express";
+import { updateUserProfile } from "../models/User";
 
 export const handleUpdateUserProfile = async (req: SessionRequest, res: Response) => {
   try {
     const userId = req.session!.getUserId();
-    const { name, username } = req.body;
+    const { fullName, username, description, imageUrl } = req.body;
 
-    if (!name && !username) {
-      return res.status(400).json({ error: "At least one field is required to update" });
+    if (!fullName && !username && !description && !imageUrl) {
+      return res.status(400).json({ error: "No fields provided to update." });
+    }
+    
+    await updateUserProfile(userId, fullName, username, description, imageUrl);
+
+    // ✅ Update profile via Drizzle
+    const updated = await updateUserProfile(
+      userId,
+      fullName,
+      username,
+      description,
+      imageUrl // 👈 profile image URL from upload
+    );
+
+    return res.json({
+      message: "Profile updated successfully",
+      profile: updated[0], // return updated profile data
+    });
+  } catch (error) {
+    console.error("🚨 Error updating profile:", error);
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+};*/
+
+// controllers/userController.ts
+import { Response } from "express";
+import { SessionRequest } from "supertokens-node/framework/express";
+import { updateUserProfile } from "../models/User";
+
+export const handleUpdateUserProfile = async (req: SessionRequest, res: Response) => {
+  try {
+    const userId = req.session!.getUserId();
+    const {
+      fullName,
+      username,
+      description,
+      imageUrl,
+    }: {
+      fullName?: string;
+      username?: string;
+      description?: string;
+      imageUrl?: string;
+    } = req.body;
+
+    // If no fields are provided, reject
+    if (!fullName && !username && !description && !imageUrl) {
+      return res.status(400).json({ error: "No fields provided for update." });
     }
 
-    const updatedUser = await updateUser(parseInt(userId, 10), name, username); // Ensure userId is parsed to an integer
+    const updated = await updateUserProfile(
+      userId,
+      fullName,
+      username,
+      description,
+      imageUrl
+    );
 
-    return res.json({ message: "Profile updated successfully", user: updatedUser });
+    return res.json({
+      message: "Profile updated successfully",
+      profile: updated[0],
+    });
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("🚨 Error updating profile:", error);
     res.status(500).json({ error: "Failed to update profile" });
   }
 };
+
