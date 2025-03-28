@@ -16,11 +16,14 @@ import * as schema from "./src/drizzle/schema.js";
 
 // Import user metadata
 import UserMetadata from "supertokens-node/recipe/usermetadata";
+import userRoutes from "./routes/userRoutes.js"; // ✅ adjust path/extension as needed
 
+/*
 // Check for API key
 if (!process.env.SUPERTOKENS_API_KEY) {
   console.warn("⚠️ Warning: SUPER TOKENS API KEY is missing. Make sure to set it in your .env file!");
 }
+  */
 //GET IMAGE FROM THE BUCKET Tigris -----------------------------------
 //import { verifySession } from "supertokens-node/recipe/session/framework/express";
 import { S3Client, ListObjectsV2Command, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
@@ -33,7 +36,7 @@ dotenv.config();
 //GET IMAGE FROM THE BUCKET Tigris -----------------------------------
 
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
+  region: "auto",//alway auto
   endpoint: process.env.AWS_ENDPOINT_URL_S3,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -41,8 +44,14 @@ const s3Client = new S3Client({
   },
   forcePathStyle: true,
 });
-
-
+/*
+const s3Client = new S3Client({
+  region: "auto",//alway auto
+  endpoint: "https://fly.storage.tigris.dev",
+  s3ForcePathStyle: false,
+});
+*/
+//add the .env
 const getFilesFromStorage = async () => {
   const data = await s3Client.send(new ListObjectsV2Command({
     Bucket: process.env.BUCKET_NAME,
@@ -137,31 +146,12 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(bodyParser.json());
 app.use(middleware()); // SuperTokens middleware
 
+app.use("/api", userRoutes);
+
 
 // Health check endpoint end-point [Rudgino's code]
 app.get("/", (req, res) => {
   res.send("🚀 Server is running!");
-});
-
-// Fetch user info [Yuzhen's code]
-app.get("/user/userinfo", verifySession(), async (req, res) => {
-  try {
-    const userId = req.session.getUserId();
-    const { metadata } = await UserMetadata.getUserMetadata(userId);
-
-    console.log("✅ User Metadata Retrieved:", metadata); // Debugging log
-
-    res.json({
-      userId: userId,
-      fullName: metadata.fullName || "Unknown User",
-      username: metadata.username || "unknown",
-      email: metadata.email || "No email found",  // ✅ Now fetching email
-    });
-
-  } catch (error) {
-    console.error("🚨 Error retrieving user metadata:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
 });
 
 //log in user end-point[Asmar's code]
@@ -192,17 +182,40 @@ app.post("/auth/signup", async (req, res) => {
   }
 });
 
+
+// Fetch user info [Yuzhen's code]
+app.get("/user/userinfo", verifySession(), async (req, res) => {
+  try {
+    const userId = req.session.getUserId();
+    const { metadata } = await UserMetadata.getUserMetadata(userId);
+
+    console.log("✅ User Metadata Retrieved:", metadata); // Debugging log
+
+    res.json({
+      userId: userId,
+      fullName: metadata.fullName || "Unknown User",
+      username: metadata.username || "unknown",
+      email: metadata.email || "No email found",  // ✅ Now fetching email
+    });
+
+  } catch (error) {
+    console.error("🚨 Error retrieving user metadata:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Edit profile
 app.post("/api/edit_profile", verifySession(), async (req, res) => {
+  
   const userId = req.session.getUserId();
-  const { fullName, username, description } = req.body;
+  const { fullName, username, description, pfp } = req.body;
 
   if (!fullName || !username) {
     return res.status(400).json({ success: false, message: "Missing required fields" });
   }
 
   try {
-    await UserMetadata.updateUserMetadata(userId, { fullName, username, description });
+    await UserMetadata.updateUserMetadata(userId, { fullName, username, description, pfp });
     console.log(`✅ Metadata updated for user ${userId}`);
     res.json({ success: true });
   } catch (error) {
@@ -248,26 +261,22 @@ app.post("/api/upload_files", verifySession(), async (req, res) => {
   const base64Data = data.split(",")[1];
   const buf = Buffer.from(base64Data, 'base64');
 
+  //need convertion for jpng files
   const upload = new Upload({
     params: {
       Bucket: process.env.BUCKET_NAME,
-      Key: name,
+      Key:`${req.session.getUserId()}.png`,//maintain the key id
       Body: buf,
+      ContentType: "image/png",
     },
     client: s3Client,
     queueSize: 1,
   });
   upload.on("httpUploadProgress", (progress) => console.log(progress));
   await upload.done();
-
-  // Return signed URL for the uploaded image
-  const imageUrl = await getSignedUrl(s3Client, new GetObjectCommand({
-    Bucket: process.env.BUCKET_NAME,
-    Key: name,
-  }), { expiresIn: 3600 });
-
-  res.json({ imageUrl });
+  return res.json({ message: "File uploaded successfully" });
 });
+//CHANGE THE BUCKET TIME DELIEVE, how long take the time to catchthe image
 //---------------------------------------------------------------------
 app.post("/api/delete_file", verifySession(), async (req, res) => {
   const { name } = req.body;
@@ -286,28 +295,24 @@ app.get("/api/user_profile", verifySession(), async (req, res) => {
   try {
     const userId = req.session.getUserId();
     const { metadata } = await UserMetadata.getUserMetadata(userId);
-
-    // Construct the expected image key (e.g., "profiles/{userId}.png")
-    const imageKey = `profiles/${userId}.png`;
+    const imageKey = `${userId}.png`;
+    console.log("🔍 User ID:", userId);
 
     // Try to generate signed URL for the image
     let imageUrl;
     try {
-      imageUrl = await getSignedUrl(s3Client, new GetObjectCommand({
-        Bucket: process.env.BUCKET_NAME,
-        Key: imageKey
-      }), { expiresIn: 3600 });
+      imageUrl = `https://${process.env.BUCKET_NAME}.fly.storage.tigris.dev/${imageKey}`
     } catch (err) {
       console.warn(`⚠️ No profile image found for ${userId}:`, err.message);
-      imageUrl = null;
     }
 
     res.json({
       userId,
       fullName: metadata.fullName || "Unknown",
       username: metadata.username || "unknown",
+      description: metadata.description || "No description",
       email: metadata.email || "No email",
-      imageUrl, // null if not found
+      imageUrl, 
     });
   } catch (error) {
     console.error("🚨 Failed to fetch user profile:", error);
