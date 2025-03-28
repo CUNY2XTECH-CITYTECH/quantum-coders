@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import './profile.css';
 import { useNavigate } from "react-router-dom";
-//import { useSession } from "supertokens-auth-react/recipe/session"; // Corrected import
 
 interface UserData {
   fullName: string;
@@ -9,102 +8,109 @@ interface UserData {
   description: string;
 }
 
-interface FileData {
-  Key: string;
-  Url: string;
-  LastModified: string;
-}
-
 export default function EditingProfile({
   userData,
   setIsEditing,
   setUserData,
+  fetchUserInfo,
 }: {
   setIsEditing: (status: boolean) => void;
   userData: UserData;
   setUserData: (data: UserData) => void;
-  fetchUserInfo: () => void; // new prop
+  fetchUserInfo: () => void;
 }) {
-
-
-  const [fullName, setFullName] = useState(userData.fullName || "John Doe");
-  const [username, setUsername] = useState(userData.username || "johndoe");
-  const [description, setDescription] = useState(userData.description || "Hello World");
-  
-  const [files, setFiles] = useState<FileData[]>([]);
+  const [fullName, setFullName] = useState(userData.fullName || "");
+  const [username, setUsername] = useState(userData.username || "");
+  const [description, setDescription] = useState(userData.description || "");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
 
-useEffect(() => {
-  setFullName(userData.fullName || "John Doe");
-  setUsername(userData.username || "johndoe");
-  setDescription(userData.description || "Hello World");
-}, [userData]);
+  useEffect(() => {
+    setFullName(userData.fullName || "");
+    setUsername(userData.username || "");
+    setDescription(userData.description || "");
+  }, [userData]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setSelectedFile(file);
 
-  const fetchFiles = async () => {
-    try {
-      const response = await fetch("/api/files", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      const data: FileData[] = await response.json();
-      setFiles(data);
-    } catch (error) {
-      console.error("Error fetching files:", error);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewUrl(reader.result as string);
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleFileUpload = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const fileInput = document.getElementById("files") as HTMLInputElement;
-    if (!fileInput.files || fileInput.files.length === 0) return;
-  
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-  
-    try {
-      const response = await fetch("http://localhost:3001/api/upload_files", {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-  
-      if (response.ok) {
-        console.log("✅ File uploaded successfully");
-        fetchFiles();
-      } else {
-        console.error("❌ Upload failed:", response.status);
-      }
-    } catch (error) {
-      console.error("❌ Upload error:", error);
-    }
+  const uploadFileAndGetUrl = async (): Promise<string | null> => {
+    if (!selectedFile) return null;
+
+    const reader = new FileReader();
+
+    return new Promise((resolve) => {
+      reader.onloadend = async () => {
+        const base64Data = reader.result?.toString();
+        if (!base64Data) return resolve(null);
+
+        const response = await fetch("http://localhost:3001/api/upload_files", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: `profile_${Date.now()}_${selectedFile.name}`,
+            data: base64Data,
+          }),
+          credentials: "include",
+        });
+
+        const result = await response.json();
+        resolve(result.imageUrl || null);
+      };
+
+      reader.readAsDataURL(selectedFile);
+    });
   };
-  
 
   const handleSaveProfile = async () => {
     try {
+      let imageUrl: string | null = null;
+  
+      // Upload the file if selected
+      if (selectedFile) {
+        imageUrl = await uploadFileAndGetUrl();
+      }
+  
+      // ✅ Build request body with only non-empty fields
+      const updatePayload: Record<string, string> = {};
+      if (fullName.trim()) updatePayload.fullName = fullName;
+      if (username.trim()) updatePayload.username = username;
+      if (description.trim()) updatePayload.description = description;
+      if (imageUrl) updatePayload.imageUrl = imageUrl;
+  
+      if (Object.keys(updatePayload).length === 0) {
+        alert("Please fill in at least one field to update.");
+        return;
+      }
+  
       const response = await fetch("http://localhost:3001/api/edit_profile", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, username, description }),
+        headers: {
+          "Content-Type": "application/json"
+        },
         credentials: "include",
+        body: JSON.stringify(updatePayload),
       });
   
       if (response.ok) {
-        // ✅ Log the updated data
-        console.log("✅ Profile updated successfully:");
-        console.log("Full Name:", fullName);
-        console.log("Username:", username);
-        console.log("Description:", description);
+        setUserData({
+          fullName: fullName || userData.fullName,
+          username: username || userData.username,
+          description: description || userData.description
+        });
   
-        // Optionally update your local state
-        setUserData({ fullName, username, description });
-        console.log("✅ Profile updated");
-        setIsEditing(false); // Go back to Profile view
+        await fetchUserInfo();
         setIsEditing(false);
-        navigate("/"); // Redirect if you want
+        navigate("/");
       } else {
         console.error("❌ Failed to update profile. Server returned:", response.status);
       }
@@ -112,18 +118,13 @@ useEffect(() => {
       console.error("❌ Error updating profile:", error);
     }
   };
-  
 
   return (
     <div className="profile-card">
       <h2>Edit Profile</h2>
 
-      <form onSubmit={handleFileUpload}>
-        <input type="file" id="files" />
-        <button type="submit">Upload your profile picture</button>
-      </form>
-
-      <img src={files[0]?.Url} alt="profile" />
+      <input type="file" id="files" onChange={handleFileChange} />
+      {previewUrl && <img src={previewUrl} alt="Preview" />}
 
       <input
         type="text"
@@ -143,7 +144,9 @@ useEffect(() => {
         placeholder="Description"
       />
 
-      <button className="save-button" onClick={handleSaveProfile}>Save</button>
+      <button className="save-button" onClick={handleSaveProfile}>
+        Save
+      </button>
     </div>
   );
 }
