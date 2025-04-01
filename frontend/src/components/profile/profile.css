@@ -1,7 +1,7 @@
 /* styles.css */
 .profile-container {
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;
     align-items: center;
     padding: 24px;
     margin: 0; /* Remove top margin */
@@ -25,12 +25,16 @@
 }
 
 .profile-card h2 {
-    font-size: 24px; /* Increase font size */
+    font-size: 30px; /* Increase font size */
     font-weight: bold;
 }
 
 .profile-card p {
-    color: gray;
+    color: rgb(0, 29, 43);
+    text-align: center;
+}
+.profile-card .username-pfp{
+    color: rgb(0, 126, 184);
     text-align: center;
 }
 
@@ -86,7 +90,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 100%;
+    margin:30px;
 }
 
 .profile-image {
@@ -100,14 +105,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full height */
+    height: 50vh; /* Full height */
     background-color: #f4f4f4; /* Light background */
 }
 
 /* Style for the Editing Profile card */
 .profile-card {
     background: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 600px; /* Increase width */
@@ -127,7 +132,7 @@
 
 /* Style the Save button */
 .save-button {
-    width: 100%;
+    width: 70%;
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -135,8 +140,27 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin:5px;
 }
-
 .save-button:hover {
     background-color: #0056b3;
+}
+.cancel-button {
+    width: 25%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin:5px;
+}
+.cancel-button:hover {
+    background-color: #0056b3;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Space between buttons */
+    margin-top: 20px; /* Add some space above the buttons */
 }

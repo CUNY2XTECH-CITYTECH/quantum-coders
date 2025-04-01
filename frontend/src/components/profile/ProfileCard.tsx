@@ -58,7 +58,7 @@ export default function ProfileCard({ setIsEditing, userData }: ProfileCardProps
       <div className="profile-content">
         <img src={localUserData.profileImage || basicIcon} alt="Profile" />
         <h2>{localUserData.fullName }</h2>
-        <p>@{localUserData.username }</p>
+        <p className="username-pfp">@{localUserData.username }</p>
         <p>{localUserData.description}</p>
       </div>
     </div>

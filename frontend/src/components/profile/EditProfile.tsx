@@ -119,6 +119,11 @@ export default function EditingProfile({
     }
   };
 
+  const cancelSaveProfile = async () => {
+    setIsEditing(false);
+    navigate("/profile"); // Redirect to the profile page without saving changes
+    // Optionally, you can also reset the state to the original userData if needed
+  }
   return (
     <div className="profile-card">
       <h2>Edit Profile</h2>
@@ -143,10 +148,14 @@ export default function EditingProfile({
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Description"
       />
-
+      <div className="button-container">
+      <button className="cancel-button" onClick={cancelSaveProfile}>
+        cancel
+      </button>
       <button className="save-button" onClick={handleSaveProfile}>
         Save
       </button>
+      </div>
     </div>
   );
 }
