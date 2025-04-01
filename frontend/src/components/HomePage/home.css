@@ -7,6 +7,9 @@
   }
   .header {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #000c24;
@@ -34,6 +37,7 @@
     font-size: 44px;
     font-weight: bold;
     text-align: center;
+    margin-left: 10%;
   }
   
   .content {
@@ -43,6 +47,7 @@
 
   /*HEADER BUTTON*/
 .header-button {
+  font-weight: bold;
   align-items: center;
   appearance: none;
   background-clip: padding-box;

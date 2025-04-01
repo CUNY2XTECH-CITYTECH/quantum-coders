@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { IoHomeOutline } from "react-icons/io5";
 import { useSessionContext, signOut } from "supertokens-auth-react/recipe/session";
 import "./home.css";
 
@@ -25,7 +26,7 @@ const Header = () => {
     return (
         <header className="header">
             <div className="left-buttons">
-                <button onClick={() => navigate("/")} className="header-button">Home</button>
+                <button onClick={() => navigate("/")} className="header-button"> <IoHomeOutline /> </button>
             </div>
 
             <h1 className="title">Quantum Coders</h1>
