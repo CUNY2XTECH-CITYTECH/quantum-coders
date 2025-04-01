@@ -1,0 +1,30 @@
+.general-page {
+    display: flex; /* Use flexbox to align children side by side */
+    justify-content: space-between; /* Add space between the two sections */
+    align-items: flex-start; /* Align items at the top */
+    padding: 20px;
+    margin: 10px auto; /* Center the page */
+    max-width: 800px;
+    font-family: Arial, sans-serif;
+    color: antiquewhite;
+}
+
+.left-info {
+    flex: 1; /* Allow it to take up available space */
+    padding: 10px;
+    background-color: #2c3e50; /* Dark background for left info */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 10px; /* Add space between left and right sections */
+}
+
+.right-trend-post {
+    flex: 1; /* Allow it to take up available space */
+    padding: 10px;
+    background-color: #34495e; /* Dark background for right trend post */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px; /* Add space between left and right sections */
+}

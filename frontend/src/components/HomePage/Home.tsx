@@ -50,14 +50,11 @@ const Home: React.FC = () => {
         <div className="homepage">
             <Header />
             {<div className="other-buttons">
-                    <button className="buttons-pageProject" onClick={() => navigate("/services" )}> Services </button>
-                    <button className="buttons-pageProject" onClick={() => navigate("/aboutUs")}> About Us </button>
+                    {/*<button className="buttons-pageProject" onClick={() => navigate("/services" )}> Services </button>*/}
+                    <button className="buttons-pageProject" onClick={() => navigate("/about")}> About Us </button>
                     <button className="buttons-pageProject" onClick={() => navigate("/post")}> Post </button>
                 </div>}
             <main className="content">
-                {/*
-                <h2>Welcome {username ? username : "Guest"}!</h2>
-                <p>Your User ID: {userId || "Loading..."}</p>*/}
                 <h1>Welcome, {userData?.fullName || "Guest"}!</h1>
                 <p>Username: @{userData?.username || "guest"}</p>
 
