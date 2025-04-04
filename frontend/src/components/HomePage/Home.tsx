@@ -52,6 +52,7 @@ const Home: React.FC = () => {
             {<div className="other-buttons">
                     {/*<button className="buttons-pageProject" onClick={() => navigate("/services" )}> Services </button>*/}
                     <button className="buttons-pageProject" onClick={() => navigate("/about")}> About Us </button>
+                    <button className="buttons-pageProject" onClick={() => navigate("/events")}> Events </button>
                     <button className="buttons-pageProject" onClick={() => navigate("/post")}> Post </button>
                 </div>}
             <main className="content">

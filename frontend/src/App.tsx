@@ -8,6 +8,7 @@ import AboutUs from "./components/AboutUs";
 import PostPage from "./components/PostPage";
 import ErrorPage from "./components/error-page";
 import Profile from "./components/pages/ProfilePage";
+import Events from "./components/events";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: "/services",
         element: <Services />,
+    },
+    {
+        path: "/events",
+        element: <Events />,
     },
     {
         path: "/about",
