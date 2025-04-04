@@ -7,6 +7,7 @@ const Events: React.FC = () => {
         <div>
             <Header />
             <h1 className="title">Events</h1>
+            <p> ALL THIS EVENTS SITE ARE LOCATE IN NYC</p>
             <br></br>
             <div className="event-page">
                 <div className="button-group">

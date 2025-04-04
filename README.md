@@ -41,3 +41,10 @@ npm run
 
 **Step 3**
 Enjoy interact with the project!
+
+UPDATES
+
+THE PROJECT IS CLOSE, if you want see by yourself, need pay Fly.io server and install to the backend. 
+Enjoy look the sample images of the project
+
+
